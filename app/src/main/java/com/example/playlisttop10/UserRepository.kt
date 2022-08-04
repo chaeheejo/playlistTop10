@@ -1,26 +1,40 @@
 package com.example.playlisttop10
 
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 
 class UserRepository {
     private val db = FirebaseFirestore.getInstance()
 
-    public fun trySignup(id: String, password: String, name: String, callback: UserRepositoryCallback){
+    fun trySignup(
+        id: String,
+        password: String,
+        name: String,
+        callback: (result: Result<String>) -> Unit
+    ) {
         val user = hashMapOf<String, String>("id" to id, "password" to password, "name" to name)
 
         db.collection("user")
             .document(id)
             .set(user)
-            .addOnSuccessListener{
-                callback.onComplete(Result.Success<String>("success"))
+            .addOnSuccessListener {
+                callback.invoke(Result.success("success"))
             }
-            .addOnFailureListener{
-                callback.onComplete(Result.Error(it))
+            .addOnFailureListener {
+                callback.invoke(Result.failure(it))
             }
     }
 
-    public interface UserRepositoryCallback {
-        fun onComplete(result: Result<Any>)
+    fun getUerList(): MutableList<String> {
+        val userIdList: MutableList<String> = arrayListOf()
+
+        db.collection("user")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    userIdList.add(document.id)
+                }
+            }
+
+        return userIdList
     }
 }

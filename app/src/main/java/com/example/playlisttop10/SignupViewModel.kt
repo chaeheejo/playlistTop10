@@ -1,13 +1,16 @@
 package com.example.playlisttop10
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.coroutines.*
 
 class SignupViewModel {
 
     private val isSignedUp = MutableLiveData<Boolean>()
+    private val isDuplicated = MutableLiveData<Boolean>()
     private val userRepository: UserRepository = UserRepository()
-    private lateinit var userIdList: MutableList<String>
 
     fun checkUserInformationFormat(id: String, password: String, name: String) = when {
         id.length < 5 -> "id"
@@ -17,14 +20,15 @@ class SignupViewModel {
     }
 
     fun trySignup(id: String, password: String, name: String) {
-        userIdList = userRepository.getUerList()
+        val idList: MutableList<String> = runBlocking {  userRepository.getIdList() }
 
-        if () {
-
+        if (id !in idList) {
+            Log.d("DEBUG ", "trySignup: " + 2 + " " + idList.size)
+            userRepository.trySignup(id, password, name, ::onSignupResultReceived)
+        } else {
+            isDuplicated.value = true
         }
-        userRepository.trySignup(id, password, name, ::onSignupResultReceived)
     }
-
 
     private fun onSignupResultReceived(result: Result<String>) {
         when {
@@ -35,5 +39,9 @@ class SignupViewModel {
 
     fun getSignupState(): LiveData<Boolean> {
         return isSignedUp
+    }
+
+    fun getDuplicatedState(): LiveData<Boolean> {
+        return isDuplicated
     }
 }

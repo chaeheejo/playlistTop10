@@ -1,6 +1,10 @@
 package com.example.playlisttop10
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class UserRepository {
     private val db = FirebaseFirestore.getInstance()
@@ -24,17 +28,20 @@ class UserRepository {
             }
     }
 
-    fun getUerList(): MutableList<String> {
-        val userIdList: MutableList<String> = arrayListOf()
-
+    suspend fun getIdList(): MutableList<String> {
+        val idList: MutableList<String> = arrayListOf()
+        Log.d("DEBUG ", "trySignup: " + 3 + " " + idList.size)
+        Log.d("DEBUG ", "trySignup: " + 4 + " " + idList.size)
         db.collection("user")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    userIdList.add(document.id)
+                    idList.add(document.id)
+                    Log.d("DEBUG ", "trySignup: " + 99 + " " + idList.size)
                 }
             }
-
-        return userIdList
+            .await()
+        Log.d("DEBUG ", "trySignup: " + 5 + " " + idList.size)
+        return idList
     }
 }

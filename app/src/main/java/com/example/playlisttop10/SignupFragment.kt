@@ -48,7 +48,7 @@ class SignupFragment : Fragment() {
             when (it) {
                 true -> NavHostFragment.findNavController(this)
                     .navigate(R.id.action_signupFragment_to_loginFragment)
-                false -> makeToast("duplicate")
+                false -> makeToast("fail")
             }
 
         })
@@ -60,6 +60,7 @@ class SignupFragment : Fragment() {
             "id" -> toast = "5글자 이상의 id를 입력해주세요."
             "password" -> toast = "4글자 이상의 password를 입력해주세요."
             "name" -> toast = "정확한 이름을 입력해주세요."
+            "fail" -> toast = "회원가입에 실패하였습니다."
             "duplicate" -> toast = "중복된 id를 입력했습니다."
         }
         Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()

@@ -5,9 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
 class SignupViewModel {
-
+    private var idList: List<String> = arrayListOf()
     private val isSignedUp = MutableLiveData<Boolean>()
     private val isDuplicated = MutableLiveData<Boolean>()
     private val userRepository: UserRepository = UserRepository()
@@ -20,14 +21,24 @@ class SignupViewModel {
     }
 
     fun trySignup(id: String, password: String, name: String) {
-        val idList: MutableList<String> = runBlocking {  userRepository.getIdList() }
+        CoroutineScope(Dispatchers.IO).launch {
+            val two = async { idList = userRepository.getIdList() }
 
-        if (id !in idList) {
-            Log.d("DEBUG ", "trySignup: " + 2 + " " + idList.size)
-            userRepository.trySignup(id, password, name, ::onSignupResultReceived)
-        } else {
-            isDuplicated.value = true
+            val one = async {
+                Log.d("debug", "trySignup: " + 3 + idList.size)
+                if (id !in idList) {
+                    Log.d("debug", "trySignup: " + 4 + idList.size)
+                    userRepository.trySignup(id, password, name, ::onSignupResultReceived)
+                } else {
+                    isDuplicated.postValue(true)
+                }
+            }
+            two.await()
+            one.await()
+
+
         }
+
     }
 
     private fun onSignupResultReceived(result: Result<String>) {

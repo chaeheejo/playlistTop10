@@ -46,11 +46,24 @@ class SignupFragment : Fragment() {
 
         signupViewModel.getSignupState().observe(viewLifecycleOwner, Observer {
             when (it) {
-                true -> NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_signupFragment_to_loginFragment)
+                true -> {
+                    makeToast("success")
+                    NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_signupFragment_to_loginFragment)
+                }
                 false -> makeToast("fail")
             }
+        })
 
+        signupViewModel.getDuplicatedState().observe(viewLifecycleOwner, Observer {
+            when (it) {
+                true -> {
+                    makeToast("success")
+                    NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_signupFragment_to_loginFragment)
+                }
+                false -> makeToast("duplicate")
+            }
         })
     }
 
@@ -60,6 +73,7 @@ class SignupFragment : Fragment() {
             "id" -> toast = "5글자 이상의 id를 입력해주세요."
             "password" -> toast = "4글자 이상의 password를 입력해주세요."
             "name" -> toast = "정확한 이름을 입력해주세요."
+            "success" -> toast = "회원가입에 성공하셨습니다."
             "fail" -> toast = "회원가입에 실패하였습니다."
             "duplicate" -> toast = "중복된 id를 입력했습니다."
         }

@@ -3,8 +3,11 @@ package com.example.playlisttop10
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class UserRepository {
     private val db = FirebaseFirestore.getInstance()
@@ -28,20 +31,18 @@ class UserRepository {
             }
     }
 
-    suspend fun getIdList(): MutableList<String> {
-        val idList: MutableList<String> = arrayListOf()
-        Log.d("DEBUG ", "trySignup: " + 3 + " " + idList.size)
-        Log.d("DEBUG ", "trySignup: " + 4 + " " + idList.size)
+    suspend fun getIdList(): List<String> {
+        var idList: List<String> = arrayListOf()
+
         db.collection("user")
             .get()
             .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    idList.add(document.id)
-                    Log.d("DEBUG ", "trySignup: " + 99 + " " + idList.size)
-                }
+                Log.d("debug", "trySignup: "+1+idList.size)
+                idList = documents.map { it.id }
+                Log.d("debug", "trySignup: "+2+idList.size)
             }
             .await()
-        Log.d("DEBUG ", "trySignup: " + 5 + " " + idList.size)
+        Log.d("debug", "trySignup: "+6+idList.size)
         return idList
     }
 }

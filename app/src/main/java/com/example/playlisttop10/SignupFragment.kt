@@ -1,7 +1,6 @@
 package com.example.playlisttop10
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,10 +38,24 @@ class SignupFragment : Fragment() {
 
             val result: String? = signupViewModel.checkUserInformationFormat(id, password, name)
             when (result) {
-                null -> signupViewModel.trySignup(id, password, name)
+                null -> signupViewModel.tryGetIdList()
                 else -> makeToast(result)
             }
         }
+
+        signupViewModel.getDuplicatedState().observe(viewLifecycleOwner, Observer {
+            when (it) {
+                true -> {
+                    if (id !in signupViewModel.getIdList()){
+                        signupViewModel.trySignup(id, password, name)
+                    }
+                    else{
+                        makeToast("duplicate")
+                    }
+                }
+                false -> makeToast("fail")
+            }
+        })
 
         signupViewModel.getSignupState().observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -52,17 +65,6 @@ class SignupFragment : Fragment() {
                         .navigate(R.id.action_signupFragment_to_loginFragment)
                 }
                 false -> makeToast("fail")
-            }
-        })
-
-        signupViewModel.getDuplicatedState().observe(viewLifecycleOwner, Observer {
-            when (it) {
-                true -> {
-                    makeToast("success")
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_signupFragment_to_loginFragment)
-                }
-                false -> makeToast("duplicate")
             }
         })
     }

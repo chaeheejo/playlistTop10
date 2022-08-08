@@ -1,17 +1,12 @@
 package com.example.playlisttop10
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import androidx.lifecycle.*
 
-class SignupViewModel {
-    private var idList: List<String> = arrayListOf()
+class SignupViewModel : ViewModel() {
     private val isSignedUp = MutableLiveData<Boolean>()
-    private val isDuplicated = MutableLiveData<Boolean>()
+    private val isReceivedIdList = MutableLiveData<Boolean>()
     private val userRepository: UserRepository = UserRepository()
+    private var idList: List<String> = emptyList()
 
     fun checkUserInformationFormat(id: String, password: String, name: String) = when {
         id.length < 5 -> "id"
@@ -21,24 +16,21 @@ class SignupViewModel {
     }
 
     fun trySignup(id: String, password: String, name: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val two = async { idList = userRepository.getIdList() }
+        userRepository.trySignup(id, password, name, ::onSignupResultReceived)
+    }
 
-            val one = async {
-                Log.d("debug", "trySignup: " + 3 + idList.size)
-                if (id !in idList) {
-                    Log.d("debug", "trySignup: " + 4 + idList.size)
-                    userRepository.trySignup(id, password, name, ::onSignupResultReceived)
-                } else {
-                    isDuplicated.postValue(true)
-                }
+    fun tryGetIdList(){
+        userRepository.tryGetIdList(::onIdListReceived)
+    }
+
+    private fun onIdListReceived(result: Result<List<String>>) {
+        when {
+            result.isSuccess -> {
+                idList = result.getOrDefault(emptyList())
+                isReceivedIdList.value = true
             }
-            two.await()
-            one.await()
-
-
+            result.isFailure -> isReceivedIdList.value = false
         }
-
     }
 
     private fun onSignupResultReceived(result: Result<String>) {
@@ -48,11 +40,16 @@ class SignupViewModel {
         }
     }
 
+
     fun getSignupState(): LiveData<Boolean> {
         return isSignedUp
     }
 
-    fun getDuplicatedState(): LiveData<Boolean> {
-        return isDuplicated
+    fun getDuplicatedState(): MutableLiveData<Boolean> {
+        return isReceivedIdList
+    }
+
+    fun getIdList(): List<String>{
+        return idList
     }
 }

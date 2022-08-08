@@ -2,6 +2,7 @@ package com.example.playlisttop10
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.okhttp.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
@@ -31,18 +32,14 @@ class UserRepository {
             }
     }
 
-    suspend fun getIdList(): List<String> {
-        var idList: List<String> = arrayListOf()
-
+    fun tryGetIdList(callback: (result: Result<List<String>>) -> Unit)  {
         db.collection("user")
             .get()
             .addOnSuccessListener { documents ->
-                Log.d("debug", "trySignup: "+1+idList.size)
-                idList = documents.map { it.id }
-                Log.d("debug", "trySignup: "+2+idList.size)
+                callback.invoke(Result.success(documents.map { it.id }))
             }
-            .await()
-        Log.d("debug", "trySignup: "+6+idList.size)
-        return idList
+            .addOnFailureListener{
+                callback.invoke(Result.failure(it))
+            }
     }
 }

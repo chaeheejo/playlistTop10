@@ -1,14 +1,6 @@
 package com.example.playlisttop10
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.okhttp.Response
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class UserRepository {
     private val db = FirebaseFirestore.getInstance()
@@ -40,6 +32,23 @@ class UserRepository {
             }
             .addOnFailureListener{
                 callback.invoke(Result.failure(it))
+            }
+    }
+
+    fun tryLogIn(id: String, password: String, callback: (result: Result<String>) -> Unit){
+        db.collection("user")
+            .document(id)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful){
+                    if (it.result.get("password") == password)
+                        callback.invoke(Result.success("success"))
+                    else
+                        callback.invoke(Result.failure(Exception("mismatch")))
+                }
+                else{
+                    callback.invoke(Result.failure(Exception("fail to connect")))
+                }
             }
     }
 }

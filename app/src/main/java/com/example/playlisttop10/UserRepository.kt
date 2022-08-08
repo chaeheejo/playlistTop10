@@ -1,5 +1,6 @@
 package com.example.playlisttop10
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 
 class UserRepository {
@@ -49,6 +50,18 @@ class UserRepository {
                 else{
                     callback.invoke(Result.failure(Exception("fail to connect")))
                 }
+            }
+    }
+
+    fun tryGetName(id: String, callback: (result: Result<Any?>) -> Unit){
+        db.collection("user")
+            .document(id)
+            .get()
+            .addOnSuccessListener{
+                callback.invoke(Result.success(it.get("name")))
+            }
+            .addOnFailureListener{
+                callback.invoke(Result.failure(it))
             }
     }
 }

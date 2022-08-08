@@ -1,4 +1,4 @@
-package com.example.playlisttop10
+package com.example.playlisttop10.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import com.example.playlisttop10.R
 import com.example.playlisttop10.databinding.FragmentSignupBinding
 
 class SignupFragment : Fragment() {
@@ -24,8 +25,7 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

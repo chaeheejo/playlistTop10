@@ -1,6 +1,10 @@
-package com.example.playlisttop10
+package com.example.playlisttop10.login
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.playlisttop10.UserRepository
+
 
 class SignupViewModel : ViewModel() {
     private val isSignedUp = MutableLiveData<Boolean>()

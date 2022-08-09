@@ -7,37 +7,37 @@
     tools:context=".login.SignupFragment">
 
     <TextView
-        android:id="@+id/signup_text_id"
+        android:id="@+id/signUp_tv_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="ID"
+        android:text="id"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/signup_edittext_id" />
+        app:layout_constraintStart_toStartOf="@+id/signUp_et_id" />
 
     <TextView
-        android:id="@+id/signup_text_password"
+        android:id="@+id/signUp_tv_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="password"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/signup_edittext_password"
-        app:layout_constraintStart_toStartOf="@+id/signup_edittext_password" />
+        app:layout_constraintBottom_toTopOf="@+id/signUp_et_password"
+        app:layout_constraintStart_toStartOf="@+id/signUp_et_password" />
 
     <TextView
-        android:id="@+id/signup_text_name"
+        android:id="@+id/signUp_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="name"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/signup_edittext_name"
-        app:layout_constraintStart_toStartOf="@+id/signup_edittext_name" />
+        app:layout_constraintBottom_toTopOf="@+id/signUp_et_name"
+        app:layout_constraintStart_toStartOf="@+id/signUp_et_name" />
 
     <EditText
-        android:id="@+id/signup_edittext_name"
+        android:id="@+id/signUp_et_name"
         android:layout_width="318dp"
         android:layout_height="41dp"
         android:layout_marginTop="32dp"
@@ -46,10 +46,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_edittext_password" />
+        app:layout_constraintTop_toBottomOf="@+id/signUp_et_password" />
 
     <EditText
-        android:id="@+id/signup_edittext_password"
+        android:id="@+id/signUp_et_password"
         android:layout_width="318dp"
         android:layout_height="41dp"
         android:layout_marginTop="32dp"
@@ -58,10 +58,10 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_edittext_id" />
+        app:layout_constraintTop_toBottomOf="@+id/signUp_et_id" />
 
     <EditText
-        android:id="@+id/signup_edittext_id"
+        android:id="@+id/signUp_et_id"
         android:layout_width="320dp"
         android:layout_height="43dp"
         android:ems="10"
@@ -72,14 +72,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/signup_btn_submit"
+        android:id="@+id/signUp_btn_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="submit"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_edittext_name" />
+        app:layout_constraintTop_toBottomOf="@+id/signUp_et_name" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

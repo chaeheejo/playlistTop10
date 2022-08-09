@@ -2,66 +2,51 @@ package com.example.playlisttop10
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class UserRepository {
     private val db = FirebaseFirestore.getInstance()
+    private var currUser: User? = null
 
-    fun trySignup(
-        id: String,
-        password: String,
-        name: String,
-        callback: (result: Result<String>) -> Unit
-    ) {
+    suspend fun trySignUp(id: String, password: String, name: String): Result<String> {
+        if (doesDuplicateIdExist(id))
+            return Result.failure(Exception("Id Already Exists"))
+
         val user = hashMapOf<String, String>("id" to id, "password" to password, "name" to name)
-
-        db.collection("user")
-            .document(id)
-            .set(user)
-            .addOnSuccessListener {
-                callback.invoke(Result.success("success"))
-            }
-            .addOnFailureListener {
-                callback.invoke(Result.failure(it))
-            }
+        return try {
+            db.collection("user")
+                .document(id)
+                .set(user)
+                .await()
+            Result.success("Success")
+        } catch (e: Exception) {
+            Result.failure(Exception("network error"))
+        }
     }
 
-    fun tryGetIdList(callback: (result: Result<List<String>>) -> Unit)  {
-        db.collection("user")
-            .get()
-            .addOnSuccessListener { documents ->
-                callback.invoke(Result.success(documents.map { it.id }))
+    suspend fun tryLogIn(id: String, password: String): Result<String>{
+        return try {
+            val documentSnapshot = db.collection("user")
+                .document(id)
+                .get()
+                .await()
+
+            if (documentSnapshot.get("password") == password) {
+                Result.success("success")
+            } else {
+                Result.failure(Exception("password does not match"))
             }
-            .addOnFailureListener{
-                callback.invoke(Result.failure(it))
-            }
+        } catch (e: Exception) {
+            Result.failure(Exception("id does not exist"))
+        }
     }
 
-    fun tryLogIn(id: String, password: String, callback: (result: Result<String>) -> Unit){
-        db.collection("user")
-            .document(id)
+    private suspend fun doesDuplicateIdExist(id: String): Boolean {
+        val documentSnapshot = db.collection("user")
+            .whereEqualTo("id", id)
             .get()
-            .addOnCompleteListener {
-                if (it.isSuccessful){
-                    if (it.result.get("password") == password)
-                        callback.invoke(Result.success("success"))
-                    else
-                        callback.invoke(Result.failure(Exception("mismatch")))
-                }
-                else{
-                    callback.invoke(Result.failure(Exception("fail to connect")))
-                }
-            }
-    }
-
-    fun tryGetName(id: String, callback: (result: Result<Any?>) -> Unit){
-        db.collection("user")
-            .document(id)
-            .get()
-            .addOnSuccessListener{
-                callback.invoke(Result.success(it.get("name")))
-            }
-            .addOnFailureListener{
-                callback.invoke(Result.failure(it))
-            }
+            .await()
+            .documents
+        return documentSnapshot.isNotEmpty()
     }
 }

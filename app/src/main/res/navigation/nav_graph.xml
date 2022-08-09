@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/playlistFragment"
-        android:name="com.example.playlisttop10.PlaylistFragment"
+        android:name="com.example.playlisttop10.songregisteration.PlaylistFragment"
         android:label="fragment_playlist"
         tools:layout="@layout/fragment_playlist" >
         <argument
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerSongFragment"
-        android:name="com.example.playlisttop10.RegistersongFragment"
+        android:name="com.example.playlisttop10.songregisteration.RegistersongFragment"
         android:label="fragment_register_song"
         tools:layout="@layout/fragment_register_song" />
 

@@ -1,15 +1,13 @@
-package com.example.playlisttop10
+package com.example.playlisttop10.songregisteration
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.playlisttop10.UserRepository
 
 class PlaylistViewModel : ViewModel() {
     private val userRepository: UserRepository = UserRepository()
     private var isReceivedName = MutableLiveData<String>()
 
-    fun tryGetName(id: String) {
-        userRepository.tryGetName(id, ::onNameReceived)
-    }
 
     private fun onNameReceived(result: Result<Any?>) {
         when {

@@ -4,56 +4,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlisttop10.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class SignupViewModel : ViewModel() {
-    private val isSignedUp = MutableLiveData<Boolean>()
-    private val isReceivedIdList = MutableLiveData<Boolean>()
-    private val userRepository: UserRepository = UserRepository()
-    private var idList: List<String> = emptyList()
+    private val signedUp = MutableLiveData<Boolean>()
+    private val userRepository: UserRepository =  UserRepository()
 
-    fun checkUserInformationFormat(id: String, password: String, name: String) = when {
+    private var errorMessage: String ?= ""
+
+    fun validateInformationForm(id: String, password: String, name: String) = when {
         id.length < 5 -> "id"
         password.length < 4 -> "password"
         name.length < 2 -> "name"
         else -> null
     }
 
-    fun trySignup(id: String, password: String, name: String) {
-        userRepository.trySignup(id, password, name, ::onSignupResultReceived)
-    }
+    fun trySignUp(id: String, password: String, name: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = userRepository.trySignUp(id, password, name)
 
-    fun tryGetIdList(){
-        userRepository.tryGetIdList(::onIdListReceived)
-    }
-
-    private fun onIdListReceived(result: Result<List<String>>) {
-        when {
-            result.isSuccess -> {
-                idList = result.getOrDefault(emptyList())
-                isReceivedIdList.value = true
+            errorMessage = if (result.isSuccess) {
+                signedUp.postValue(true)
+                ""
+            } else {
+                signedUp.postValue(false)
+                result.exceptionOrNull()?.message
             }
-            result.isFailure -> isReceivedIdList.value = false
         }
     }
 
-    private fun onSignupResultReceived(result: Result<String>) {
-        when {
-            result.isSuccess -> isSignedUp.value = true
-            result.isFailure -> isSignedUp.value = false
-        }
+    fun isSignedUp(): LiveData<Boolean> {
+        return signedUp
     }
 
-
-    fun getSignupState(): LiveData<Boolean> {
-        return isSignedUp
-    }
-
-    fun getDuplicatedState(): MutableLiveData<Boolean> {
-        return isReceivedIdList
-    }
-
-    fun getIdList(): List<String>{
-        return idList
+    fun getErrorMessage(): String?{
+        return errorMessage
     }
 }

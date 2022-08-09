@@ -1,28 +1,35 @@
 package com.example.playlisttop10.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlisttop10.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
     private val userRepository: UserRepository = UserRepository()
-    private val isLogin = MutableLiveData<Boolean>()
+    private val loggedIn = MutableLiveData<Boolean>()
+
+    private var errorMessage: String = ""
 
     fun tryLogIn(id: String, password: String){
-        userRepository.tryLogIn(id, password, ::onLoginResultReceived)
-    }
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = userRepository.tryLogIn(id, password)
 
-    private fun onLoginResultReceived(result: Result<String>){
-        when{
-            result.isSuccess -> isLogin.value = true
-            result.isFailure -> isLogin.value = false
+            errorMessage = if (result.isSuccess) {
+                loggedIn.postValue(true)
+                ""
+            } else {
+                loggedIn.postValue(false)
+                result.getOrDefault("Error")
+            }
         }
     }
 
-    fun getLoginState(): LiveData<Boolean>{
-        return isLogin
+    fun isLoggedIn(): LiveData<Boolean>{
+        return loggedIn
     }
 
 }

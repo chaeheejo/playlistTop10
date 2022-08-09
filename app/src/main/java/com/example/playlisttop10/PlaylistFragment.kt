@@ -32,15 +32,11 @@ class PlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       val id = args.amount
-
+       val id = args.userId
         playlistViewModel.tryGetName(id)
 
-        playlistViewModel.getReceivedNameState().observe(viewLifecycleOwner, Observer{
-            when(it){
-                true -> name = playlistViewModel.getName()
-                false -> makeToast("name")
-            }
+        playlistViewModel.getReceivedName().observe(viewLifecycleOwner, Observer{
+            binding.playTextTitle.text = it+"'s TOP10 List"
         })
 
     }

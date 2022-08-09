@@ -35,7 +35,15 @@
             android:name="userId"
             android:defaultValue="userId"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_playlistFragment_to_registerSongFragment"
+            app:destination="@id/registerSongFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/registerSongFragment"
+        android:name="com.example.playlisttop10.RegistersongFragment"
+        android:label="fragment_register_song"
+        tools:layout="@layout/fragment_register_song" />
 
 
 </navigation>

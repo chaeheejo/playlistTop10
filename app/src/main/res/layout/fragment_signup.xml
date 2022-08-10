@@ -13,7 +13,7 @@
         android:layout_marginStart="4dp"
         android:text="id"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintStart_toStartOf="@+id/signUp_et_id" />
 
     <TextView
@@ -69,7 +69,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
     <Button
         android:id="@+id/signUp_btn_submit"
@@ -82,21 +82,22 @@
         app:layout_constraintTop_toBottomOf="@+id/signUp_et_name" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.14" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.67" />
+        app:layout_constraintGuide_percent="0.70
+" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/signUp_tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

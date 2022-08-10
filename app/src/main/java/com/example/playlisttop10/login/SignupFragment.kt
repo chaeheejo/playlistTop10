@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.playlisttop10.R
+import com.example.playlisttop10.User
 import com.example.playlisttop10.databinding.FragmentSignupBinding
 
 class SignupFragment : Fragment() {
@@ -27,9 +29,9 @@ class SignupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        signupViewModel = ViewModelProvider(this)[SignupViewModel::class.java]
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
-        signupViewModel = ViewModelProvider(requireActivity())[SignupViewModel::class.java]
         et_id = binding.signUpEtId
         et_password = binding.signUpEtPassword
         et_name = binding.signUpEtName
@@ -45,8 +47,10 @@ class SignupFragment : Fragment() {
             val password = et_password.text.toString()
             val name = et_name.text.toString()
 
-            when (val result: String ?= signupViewModel.validateInformationForm(id, password, name)) {
-                null -> signupViewModel.trySignUp(id, password, name)
+            val user = User(id, password, name)
+
+            when (val result: String ?= signupViewModel.validateInformationForm(user)) {
+                null -> signupViewModel.trySignUp(user)
                 else -> makeRightToastMessage(result)
             }
         }
@@ -55,10 +59,9 @@ class SignupFragment : Fragment() {
             when (it) {
                 true -> {
                     makeRightToastMessage("success")
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_signupFragment_to_loginFragment)
+                    findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
                 }
-                false -> Toast.makeText(activity, signupViewModel.getErrorMessage(), Toast.LENGTH_SHORT).show()
+                false -> Toast.makeText(activity, signupViewModel.getErrorMessage()!!, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -66,11 +69,10 @@ class SignupFragment : Fragment() {
     private fun makeRightToastMessage(str: String) {
         var toast = ""
         when (str) {
-            "id" -> toast = "5글자 이상의 id를 입력해주세요."
-            "password" -> toast = "4글자 이상의 password를 입력해주세요."
-            "name" -> toast = "정확한 이름을 입력해주세요."
-            "success" -> toast = "회원가입에 성공하셨습니다."
-            "fail" -> toast = "회원가입에 실패하였습니다."
+            "id" -> toast = "enter least 5 characters id"
+            "password" -> toast = "enter least 4 characters password"
+            "name" -> toast = "enter least 2 characters name"
+            "success" -> toast = "sign up successful"
         }
         Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
     }

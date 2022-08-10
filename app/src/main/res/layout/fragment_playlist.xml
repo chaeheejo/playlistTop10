@@ -7,7 +7,7 @@
     tools:context=".songregisteration.PlaylistFragment" >
 
     <TextView
-        android:id="@+id/play_text_title"
+        android:id="@+id/playlist_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -17,12 +17,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/register_btn"
+        android:id="@+id/playlist_btn_register"
         android:layout_width="52dp"
         android:layout_height="54dp"
         android:src="@android:drawable/ic_menu_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/play_text_title" />
+        app:layout_constraintTop_toBottomOf="@+id/playlist_tv_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

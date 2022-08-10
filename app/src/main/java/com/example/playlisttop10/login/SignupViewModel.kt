@@ -3,6 +3,7 @@ package com.example.playlisttop10.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.playlisttop10.User
 import com.example.playlisttop10.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,20 +12,18 @@ import kotlinx.coroutines.launch
 
 class SignupViewModel : ViewModel() {
     private val signedUp = MutableLiveData<Boolean>()
-    private val userRepository: UserRepository =  UserRepository()
-
     private var errorMessage: String ?= ""
 
-    fun validateInformationForm(id: String, password: String, name: String) = when {
-        id.length < 5 -> "id"
-        password.length < 4 -> "password"
-        name.length < 2 -> "name"
+    fun validateInformationForm(user: User) = when {
+        user.id.length < 5 -> "id"
+        user.password.length < 4 -> "password"
+        user.name.length < 2 -> "name"
         else -> null
     }
 
-    fun trySignUp(id: String, password: String, name: String) {
+    fun trySignUp(user: User) {
         CoroutineScope(Dispatchers.IO).launch {
-            val result = userRepository.trySignUp(id, password, name)
+            val result = UserRepository.trySignUp(user)
 
             errorMessage = if (result.isSuccess) {
                 signedUp.postValue(true)

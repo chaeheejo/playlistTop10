@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlisttop10.R
+import com.example.playlisttop10.User
 import com.example.playlisttop10.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -25,14 +26,11 @@ class LoginFragment : Fragment() {
     private lateinit var btn_logIn: Button
     private lateinit var btn_signUp: Button
 
-    private var id: String = ""
-    private var password: String = ""
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        loginViewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
+    ): View {
+        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         et_id = binding.logInEtId
         et_password = binding.logInEtPassword
@@ -45,24 +43,22 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btn_logIn.setOnClickListener {
-            id = et_id.text.toString()
-            password = et_password.text.toString()
+            val id = et_id.text.toString()
+            val password = et_password.text.toString()
 
-            loginViewModel.tryLogIn(id, password)
+            val user = User(id, password, "")
+
+            loginViewModel.tryLogIn(user)
         }
 
         btn_signUp.setOnClickListener {
-            NavHostFragment.findNavController(this)
-                .navigate(R.id.action_loginFragment_to_signupFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
         loginViewModel.isLoggedIn().observe(viewLifecycleOwner, Observer {
             when (it) {
-                true -> {
-                    val action = LoginFragmentDirections.actionLoginFragmentToPlaylistFragment(id)
-                    findNavController().navigate(action)
-                }
-                false -> Toast.makeText(activity, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show()
+                true -> findNavController().navigate(R.id.action_loginFragment_to_playlistFragment)
+                false -> Toast.makeText(activity, loginViewModel.getErrorMessage()!!, Toast.LENGTH_SHORT).show()
             }
         })
 

@@ -31,19 +31,19 @@
         android:name="com.example.playlisttop10.songregisteration.PlaylistFragment"
         android:label="fragment_playlist"
         tools:layout="@layout/fragment_playlist" >
-        <argument
-            android:name="userId"
-            android:defaultValue="userId"
-            app:argType="string"/>
         <action
             android:id="@+id/action_playlistFragment_to_registerSongFragment"
             app:destination="@id/registerSongFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerSongFragment"
-        android:name="com.example.playlisttop10.songregisteration.RegistersongFragment"
+        android:name="com.example.playlisttop10.songregisteration.RegisterSongFragment"
         android:label="fragment_register_song"
-        tools:layout="@layout/fragment_register_song" />
+        tools:layout="@layout/fragment_register_song" >
+        <action
+            android:id="@+id/action_registerSongFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+    </fragment>
 
 
 </navigation>

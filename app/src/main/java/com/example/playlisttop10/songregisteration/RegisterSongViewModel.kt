@@ -1,34 +1,33 @@
-package com.example.playlisttop10.login
+package com.example.playlisttop10.songregisteration
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlisttop10.User
+import com.example.playlisttop10.Song
 import com.example.playlisttop10.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel: ViewModel() {
-    private val loggedIn = MutableLiveData<Boolean>()
+class RegisterSongViewModel: ViewModel() {
+    private val songRegistered = MutableLiveData<Boolean>()
     private var errorMessage: String ?= ""
 
-    fun tryLogIn(user: User){
-        CoroutineScope(Dispatchers.IO).launch {
-            val result = UserRepository.tryLogIn(user)
+    fun tryRegisterSong(song: Song){
+        CoroutineScope(Dispatchers.IO).launch{
+            val result = UserRepository.tryRegisterSong(song)
 
             errorMessage = if (result.isSuccess) {
-                loggedIn.postValue(true)
+                songRegistered.postValue(true)
                 ""
             } else {
-                loggedIn.postValue(false)
+                songRegistered.postValue(false)
                 result.exceptionOrNull()?.message
             }
         }
     }
 
-    fun isLoggedIn(): LiveData<Boolean>{
-        return loggedIn
+    fun isSongRegistered(): MutableLiveData<Boolean> {
+        return songRegistered
     }
 
     fun getErrorMessage(): String?{

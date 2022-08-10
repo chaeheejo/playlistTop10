@@ -1,67 +1,74 @@
 package com.example.playlisttop10
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
-class UserRepository {
-    private val db = FirebaseFirestore.getInstance()
+object UserRepository {
+    var currUser: User ?= null
 
-    fun trySignup(
-        id: String,
-        password: String,
-        name: String,
-        callback: (result: Result<String>) -> Unit
-    ) {
-        val user = hashMapOf<String, String>("id" to id, "password" to password, "name" to name)
+    suspend fun trySignUp(user: User): Result<String> {
+        val db = FirebaseFirestore.getInstance()
 
-        db.collection("user")
-            .document(id)
-            .set(user)
-            .addOnSuccessListener {
-                callback.invoke(Result.success("success"))
-            }
-            .addOnFailureListener {
-                callback.invoke(Result.failure(it))
-            }
+        if (doesDuplicateIdExist(user.id))
+            return Result.failure(Exception("Id Already Exists"))
+
+        val userMap = hashMapOf<String, String>("id" to user.id, "password" to user.password, "name" to user.name)
+
+        return try {
+            db.collection("user")
+                .document(user.id)
+                .set(userMap)
+                .await()
+            Result.success("Success")
+        } catch (e: Exception) {
+            Result.failure(Exception("fail to sign up"))
+        }
     }
 
-    fun tryGetIdList(callback: (result: Result<List<String>>) -> Unit)  {
-        db.collection("user")
-            .get()
-            .addOnSuccessListener { documents ->
-                callback.invoke(Result.success(documents.map { it.id }))
+    suspend fun tryLogIn(user: User): Result<String> {
+        val db = FirebaseFirestore.getInstance()
+
+        return try {
+            val documentSnapshot = db.collection("user")
+                .document(user.id)
+                .get()
+                .await()
+
+            if (documentSnapshot.get("password") == user.password) {
+                currUser = User(user.id, user.password, documentSnapshot.get("name").toString())
+
+                Result.success("success")
+            } else {
+                Result.failure(Exception("password does not match"))
             }
-            .addOnFailureListener{
-                callback.invoke(Result.failure(it))
-            }
+        } catch (e: Exception) {
+            Result.failure(Exception("id does not exist"))
+        }
     }
 
-    fun tryLogIn(id: String, password: String, callback: (result: Result<String>) -> Unit){
-        db.collection("user")
-            .document(id)
+    private suspend fun doesDuplicateIdExist(id: String): Boolean {
+        val db = FirebaseFirestore.getInstance()
+        val documentSnapshot = db.collection("user")
+            .whereEqualTo("id", id)
             .get()
-            .addOnCompleteListener {
-                if (it.isSuccessful){
-                    if (it.result.get("password") == password)
-                        callback.invoke(Result.success("success"))
-                    else
-                        callback.invoke(Result.failure(Exception("mismatch")))
-                }
-                else{
-                    callback.invoke(Result.failure(Exception("fail to connect")))
-                }
-            }
+            .await()
+            .documents
+        return documentSnapshot.isNotEmpty()
     }
 
-    fun tryGetName(id: String, callback: (result: Result<Any?>) -> Unit){
-        db.collection("user")
-            .document(id)
-            .get()
-            .addOnSuccessListener{
-                callback.invoke(Result.success(it.get("name")))
-            }
-            .addOnFailureListener{
-                callback.invoke(Result.failure(it))
-            }
+    suspend fun tryRegisterSong(song: Song): Result<String>{
+        val db = FirebaseFirestore.getInstance()
+
+        val songMap = hashMapOf<String, String>("title" to song.title, "singer" to song.singer, "album" to song.album)
+
+        return try{
+            db.collection("song")
+                .document(song.title)
+                .set(songMap)
+                .await()
+            Result.success("Success")
+        }catch (e: Exception){
+            Result.failure(Exception("fail to register song"))
+        }
     }
 }

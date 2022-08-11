@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
     id "androidx.navigation.safeargs.kotlin"
+    id 'kotlin-android'
 }
 
 android {
@@ -26,6 +27,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -34,6 +36,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0'
+    }
 }
 
 dependencies {
@@ -41,6 +46,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
     implementation "androidx.fragment:fragment-ktx:1.6.0-alpha01"
@@ -52,4 +58,11 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+
+    implementation 'androidx.activity:activity-compose:1.5.1'
+    implementation 'androidx.compose.material:material:1.2.1'
+    implementation 'androidx.compose.animation:animation:1.2.1'
+    implementation 'androidx.compose.ui:ui-tooling:1.2.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.2.1'
 }

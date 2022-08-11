@@ -1,6 +1,7 @@
 package com.example.playlisttop10
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 
 object UserRepository {
@@ -35,7 +36,7 @@ object UserRepository {
                 .await()
 
             if (documentSnapshot.get("password") == user.password) {
-                currUser = User(user.id, user.password, documentSnapshot.get("name").toString())
+                currUser = User(user.id, user.password, documentSnapshot.get("name").toString(), arrayListOf())
 
                 Result.success("success")
             } else {
@@ -56,19 +57,21 @@ object UserRepository {
         return documentSnapshot.isNotEmpty()
     }
 
-    suspend fun tryRegisterSong(song: Song): Result<String>{
+    suspend fun tryRegisterSongTitle(title: String): Result<String>{
         val db = FirebaseFirestore.getInstance()
 
-        val songMap = hashMapOf<String, String>("title" to song.title, "singer" to song.singer, "album" to song.album)
+        currUser!!.playlist.add(title)
 
-        return try{
-            db.collection("song")
-                .document(song.title)
-                .set(songMap)
+        val keyMap = hashMapOf("playlist" to currUser!!.playlist)
+
+        return try {
+            db.collection("user")
+                .document(currUser!!.id)
+                .set(keyMap, SetOptions.merge())
                 .await()
-            Result.success("Success")
+            Result.success("success")
         }catch (e: Exception){
-            Result.failure(Exception("fail to register song"))
+            Result.failure(Exception("fail to register song title"))
         }
     }
 }

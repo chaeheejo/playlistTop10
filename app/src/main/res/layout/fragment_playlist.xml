@@ -18,9 +18,11 @@
 
     <ImageButton
         android:id="@+id/playlist_btn_register"
-        android:layout_width="52dp"
-        android:layout_height="54dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:scaleType="fitXY"
         android:src="@android:drawable/ic_menu_add"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"

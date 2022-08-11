@@ -46,7 +46,7 @@ class LoginFragment : Fragment() {
             val id = et_id.text.toString()
             val password = et_password.text.toString()
 
-            val user = User(id, password, "")
+            val user = User(id, password, "", arrayListOf())
 
             loginViewModel.tryLogIn(user)
         }

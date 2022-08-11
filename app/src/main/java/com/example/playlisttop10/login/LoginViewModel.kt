@@ -13,9 +13,9 @@ class LoginViewModel: ViewModel() {
     private val loggedIn = MutableLiveData<Boolean>()
     private var errorMessage: String ?= ""
 
-    fun tryLogIn(user: User){
+    fun tryLogIn(id: String, password: String){
         CoroutineScope(Dispatchers.IO).launch {
-            val result = UserRepository.tryLogIn(user)
+            val result = UserRepository.tryLogIn(id, password)
 
             errorMessage = if (result.isSuccess) {
                 loggedIn.postValue(true)

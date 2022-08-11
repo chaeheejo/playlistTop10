@@ -47,10 +47,8 @@ class SignupFragment : Fragment() {
             val password = et_password.text.toString()
             val name = et_name.text.toString()
 
-            val user = User(id, password, name, arrayListOf())
-
-            when (val result: String ?= signupViewModel.validateInformationForm(user)) {
-                null -> signupViewModel.trySignUp(user)
+            when (val result: String ?= signupViewModel.validateInformationForm(id, password, name)) {
+                null -> signupViewModel.trySignUp(id, password, name)
                 else -> makeRightToastMessage(result)
             }
         }

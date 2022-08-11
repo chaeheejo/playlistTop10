@@ -1,4 +1,4 @@
-package com.example.playlisttop10.songregisteration
+package com.example.playlisttop10.songregistration
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

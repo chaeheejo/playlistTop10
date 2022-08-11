@@ -1,10 +1,9 @@
-package com.example.playlisttop10.songregisteration
+package com.example.playlisttop10.songregistration
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlisttop10.Song
 import com.example.playlisttop10.SongRepository
-import com.example.playlisttop10.User
 import com.example.playlisttop10.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +17,7 @@ class RegisterSongViewModel: ViewModel() {
         CoroutineScope(Dispatchers.IO).launch{
             val resultSong = SongRepository.tryRegisterSong(song)
 
-            val key = song.title+song.singer
+            val key = song.title
             val resultUser = UserRepository.tryRegisterSongTitle(key)
 
             errorMessage = if (resultSong.isSuccess and resultUser.isSuccess) {

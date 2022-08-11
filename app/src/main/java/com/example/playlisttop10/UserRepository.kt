@@ -7,17 +7,17 @@ import kotlinx.coroutines.tasks.await
 object UserRepository {
     var currUser: User ?= null
 
-    suspend fun trySignUp(user: User): Result<String> {
+    suspend fun trySignUp(id: String, password: String, name: String): Result<String> {
         val db = FirebaseFirestore.getInstance()
 
-        if (doesDuplicateIdExist(user.id))
+        if (doesDuplicateIdExist(id))
             return Result.failure(Exception("Id Already Exists"))
 
-        val userMap = hashMapOf<String, String>("id" to user.id, "password" to user.password, "name" to user.name)
+        val userMap = hashMapOf<String, String>("id" to id, "password" to password, "name" to name)
 
         return try {
             db.collection("user")
-                .document(user.id)
+                .document(id)
                 .set(userMap)
                 .await()
             Result.success("Success")
@@ -26,17 +26,17 @@ object UserRepository {
         }
     }
 
-    suspend fun tryLogIn(user: User): Result<String> {
+    suspend fun tryLogIn(id: String, password: String): Result<String> {
         val db = FirebaseFirestore.getInstance()
 
         return try {
             val documentSnapshot = db.collection("user")
-                .document(user.id)
+                .document(id)
                 .get()
                 .await()
 
-            if (documentSnapshot.get("password") == user.password) {
-                currUser = User(user.id, user.password, documentSnapshot.get("name").toString(), arrayListOf())
+            if (documentSnapshot.get("password") == password) {
+                currUser = User(id, password, documentSnapshot.get("name").toString())
 
                 Result.success("success")
             } else {
@@ -57,12 +57,15 @@ object UserRepository {
         return documentSnapshot.isNotEmpty()
     }
 
-    suspend fun tryRegisterSongTitle(title: String): Result<String>{
+    suspend fun tryRegisterSongTitle(key: String): Result<String>{
         val db = FirebaseFirestore.getInstance()
 
-        currUser!!.playlist.add(title)
+        val newKeyList: MutableList<String> = mutableListOf()
+        newKeyList.addAll(currUser!!.titleListForPlaylist)
+        newKeyList.add(key)
+        currUser!!.titleListForPlaylist = newKeyList
 
-        val keyMap = hashMapOf("playlist" to currUser!!.playlist)
+        val keyMap = hashMapOf("playlist" to newKeyList)
 
         return try {
             db.collection("user")

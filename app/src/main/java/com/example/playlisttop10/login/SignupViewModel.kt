@@ -14,16 +14,16 @@ class SignupViewModel : ViewModel() {
     private val signedUp = MutableLiveData<Boolean>()
     private var errorMessage: String ?= ""
 
-    fun validateInformationForm(user: User) = when {
-        user.id.length < 5 -> "id"
-        user.password.length < 4 -> "password"
-        user.name.length < 2 -> "name"
+    fun validateInformationForm(id: String, password: String, name: String) = when {
+        id.length < 5 -> "id"
+        password.length < 4 -> "password"
+        name.length < 2 -> "name"
         else -> null
     }
 
-    fun trySignUp(user: User) {
+    fun trySignUp(id: String, password: String, name: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val result = UserRepository.trySignUp(user)
+            val result = UserRepository.trySignUp(id, password, name)
 
             errorMessage = if (result.isSuccess) {
                 signedUp.postValue(true)

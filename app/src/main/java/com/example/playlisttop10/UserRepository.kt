@@ -36,7 +36,13 @@ object UserRepository {
                 .await()
 
             if (documentSnapshot.get("password") == password) {
-                currUser = User(id, password, documentSnapshot.get("name").toString())
+                currUser = User(id, password, documentSnapshot.get("name").toString(), emptyList())
+
+                try{
+                    currUser!!.songList = documentSnapshot.get("playlist") as List<Song>
+                }catch (e: Exception){
+                    currUser!!.songList = emptyList()
+                }
 
                 Result.success("success")
             } else {
@@ -57,15 +63,22 @@ object UserRepository {
         return documentSnapshot.isNotEmpty()
     }
 
-    suspend fun tryRegisterSongTitle(title: String): Result<String>{
+    suspend fun tryRegisterMySong(song: Song): Result<String>{
+        if (!canSongBeRegistered(song)){
+            return Result.failure(Exception("this song is already registered"))
+        }
+
         val db = FirebaseFirestore.getInstance()
+        val newSongListMap: MutableList<Song> = mutableListOf()
 
-        val newKeyList: MutableList<String> = mutableListOf()
-        newKeyList.addAll(currUser!!.songTitleList)
-        newKeyList.add(title)
-        currUser!!.songTitleList = newKeyList
+        if (currUser!!.songList.isNotEmpty()){
+            newSongListMap.addAll(currUser!!.songList)
+        }
 
-        val keyMap = hashMapOf("playlist" to newKeyList)
+        newSongListMap.add(song)
+        currUser!!.songList = newSongListMap
+
+        val keyMap = hashMapOf("playlist" to newSongListMap)
 
         return try {
             db.collection("user")
@@ -78,13 +91,7 @@ object UserRepository {
         }
     }
 
-    suspend fun setSongTitleListForCurrUser(){
-        val db = FirebaseFirestore.getInstance()
-
-        val documentSnapshot = db.collection("user")
-            .document(currUser!!.id)
-            .get()
-            .await()
-        currUser!!.songTitleList = documentSnapshot.get("playlist") as List<String>
+    private fun canSongBeRegistered(song: Song): Boolean{
+        return song !in currUser!!.songList
     }
 }

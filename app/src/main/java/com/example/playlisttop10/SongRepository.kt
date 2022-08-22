@@ -38,7 +38,9 @@ object SongRepository {
         }
     }
 
-    fun getSongsByTitleList(titleList: List<String>): List<Song> {
+    suspend fun getSongsByTitleList(titleList: List<String>): List<Song> {
+        loadAllSongs()
+
         val toReturn: MutableList<Song> = mutableListOf()
         titleList.forEach { title ->
             val song = getSongByTitle(title)

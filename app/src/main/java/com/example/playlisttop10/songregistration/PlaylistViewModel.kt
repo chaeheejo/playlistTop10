@@ -15,8 +15,9 @@ class PlaylistViewModel : ViewModel() {
     fun loadMySongs() {
         CoroutineScope(Dispatchers.IO).launch {
             UserRepository.setSongTitleListForCurrUser()
-
             val mySongTitleList = UserRepository.currUser!!.songTitleList
+
+            songList.clear()
             songList.addAll(SongRepository.getSongsByTitleList(mySongTitleList))
         }
     }

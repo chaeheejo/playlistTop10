@@ -46,6 +46,7 @@ class PlaylistFragment : Fragment() {
         tv_title = binding.playlistTvTitle
         btn_register = binding.playlistBtnRegister
         cv_list = binding.playlistCvList
+
         return binding.root
     }
 
@@ -70,6 +71,7 @@ class PlaylistFragment : Fragment() {
                 ElementList(songList)
             }
         }
+
     }
 
     @Composable

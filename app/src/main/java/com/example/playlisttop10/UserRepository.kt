@@ -61,9 +61,9 @@ object UserRepository {
         val db = FirebaseFirestore.getInstance()
 
         val newKeyList: MutableList<String> = mutableListOf()
-        newKeyList.addAll(currUser!!.titleListForPlaylist)
+        newKeyList.addAll(currUser!!.songTitleList)
         newKeyList.add(title)
-        currUser!!.titleListForPlaylist = newKeyList
+        currUser!!.songTitleList = newKeyList
 
         val keyMap = hashMapOf("playlist" to newKeyList)
 
@@ -78,13 +78,13 @@ object UserRepository {
         }
     }
 
-    suspend fun setSongTitleForCurrUser(){
+    suspend fun setSongTitleListForCurrUser(){
         val db = FirebaseFirestore.getInstance()
 
         val documentSnapshot = db.collection("user")
             .document(currUser!!.id)
             .get()
             .await()
-        currUser!!.titleListForPlaylist = documentSnapshot.get("playlist") as List<String>
+        currUser!!.songTitleList = documentSnapshot.get("playlist") as List<String>
     }
 }

@@ -3,6 +3,7 @@ package com.example.playlisttop10.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.playlisttop10.SongRepository
 import com.example.playlisttop10.User
 import com.example.playlisttop10.UserRepository
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +19,7 @@ class LoginViewModel: ViewModel() {
             val result = UserRepository.tryLogIn(id, password)
 
             errorMessage = if (result.isSuccess) {
+                SongRepository.loadAllSongs()
                 loggedIn.postValue(true)
                 ""
             } else {

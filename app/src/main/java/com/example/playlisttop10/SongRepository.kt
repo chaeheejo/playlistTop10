@@ -26,7 +26,7 @@ object SongRepository {
         }
     }
 
-    suspend fun loadAllSongs(): List<Song> {
+    suspend fun loadAllSongs(){
         val db = FirebaseFirestore.getInstance()
         val result = db.collection("song").get().await()
         result.documents.forEach { doc ->
@@ -36,13 +36,12 @@ object SongRepository {
                 allSongMap[it.title] = it
             }
         }
-        return allSongList
     }
 
-    fun getSongsByTitle(titleList: List<String>): List<Song> {
+    fun getSongsByTitleList(titleList: List<String>): List<Song> {
         val toReturn: MutableList<Song> = mutableListOf()
-        titleList.forEach { id ->
-            val song = getSongByTitle(id)
+        titleList.forEach { title ->
+            val song = getSongByTitle(title)
             song?.let { toReturn.add(it) }
         }
         return toReturn

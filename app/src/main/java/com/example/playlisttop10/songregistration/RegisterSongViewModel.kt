@@ -17,8 +17,8 @@ class RegisterSongViewModel: ViewModel() {
         CoroutineScope(Dispatchers.IO).launch{
             val resultSong = SongRepository.tryRegisterSong(song)
 
-            val key = song.title
-            val resultUser = UserRepository.tryRegisterSongTitle(key)
+            val title = song.title
+            val resultUser = UserRepository.tryRegisterSongTitle(title)
 
             errorMessage = if (resultSong.isSuccess and resultUser.isSuccess) {
                 songRegistered.postValue(true)

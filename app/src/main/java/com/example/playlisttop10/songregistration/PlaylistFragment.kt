@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +22,10 @@ import com.example.playlisttop10.UserRepository
 import com.example.playlisttop10.databinding.FragmentPlaylistBinding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.playlisttop10.Song
 
 
 class PlaylistFragment : Fragment() {
@@ -52,36 +55,62 @@ class PlaylistFragment : Fragment() {
         val name = UserRepository.currUser!!.name
         tv_title.text = "$name's TOP10 List"
 
-        btn_register.setOnClickListener{
+        btn_register.setOnClickListener {
             findNavController().navigate(R.id.action_playlistFragment_to_registerSongFragment)
         }
 
+        playlistViewModel.loadMySongs()
+
         cv_list.setContent {
-            val scrollState = rememberScrollState()
-            Column (
+            val songList = playlistViewModel.songList
+            Column(
                 Modifier
-                    .padding(12.dp)
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-            ){
-                element(title = "title")
+                    .padding(10.dp)
+            ) {
+                ElementList(songList)
             }
         }
-
     }
 
     @Composable
-    fun element(title: String){
-        Card(
-            Modifier
-                .padding(12.dp)
-                .border(width = 2.dp, color = Color.Black)
-                .height(100.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center){
-                Text(text = title)
+    fun ElementList(
+        elementList: List<Song>
+    ) {
+        LazyColumn(content = {
+            items(count = elementList.size) {
+                Element(elementList[it])
             }
-        }
+        })
     }
 
+    @Composable
+    fun Element(song: Song) {
+        Card(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth(),
+            elevation = 2.dp,
+            backgroundColor = Color.White,
+            shape = RoundedCornerShape(corner = CornerSize(16.dp))
+        ) {
+            Row{
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = song.title, fontSize = 33.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Text(
+                        text = song.album, fontSize = 20.sp
+                    )
+                    Text(
+                        text = song.singer, fontSize = 20.sp
+                    )
+                }
+            }
+        }
+
+    }
 }

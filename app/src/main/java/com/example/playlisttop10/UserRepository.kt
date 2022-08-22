@@ -57,12 +57,12 @@ object UserRepository {
         return documentSnapshot.isNotEmpty()
     }
 
-    suspend fun tryRegisterSongTitle(key: String): Result<String>{
+    suspend fun tryRegisterSongTitle(title: String): Result<String>{
         val db = FirebaseFirestore.getInstance()
 
         val newKeyList: MutableList<String> = mutableListOf()
         newKeyList.addAll(currUser!!.titleListForPlaylist)
-        newKeyList.add(key)
+        newKeyList.add(title)
         currUser!!.titleListForPlaylist = newKeyList
 
         val keyMap = hashMapOf("playlist" to newKeyList)
@@ -76,5 +76,15 @@ object UserRepository {
         }catch (e: Exception){
             Result.failure(Exception("fail to register song title"))
         }
+    }
+
+    suspend fun setSongTitleForCurrUser(){
+        val db = FirebaseFirestore.getInstance()
+
+        val documentSnapshot = db.collection("user")
+            .document(currUser!!.id)
+            .get()
+            .await()
+        currUser!!.titleListForPlaylist = documentSnapshot.get("playlist") as List<String>
     }
 }

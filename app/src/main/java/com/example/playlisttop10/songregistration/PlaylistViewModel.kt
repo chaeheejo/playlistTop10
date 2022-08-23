@@ -3,7 +3,6 @@ package com.example.playlisttop10.songregistration
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.playlisttop10.Song
-import com.example.playlisttop10.SongRepository
 import com.example.playlisttop10.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +13,12 @@ class PlaylistViewModel : ViewModel() {
 
     fun loadMySongs() {
         CoroutineScope(Dispatchers.IO).launch {
-            UserRepository.setSongTitleListForCurrUser()
-            val mySongTitleList = UserRepository.currUser!!.songTitleList
+            val mySongList = UserRepository.currUser?.songList
 
-            songList.clear()
-            songList.addAll(SongRepository.getSongsByTitleList(mySongTitleList))
+            if (mySongList != null){
+                songList.clear()
+                songList.addAll(mySongList)
+            }
         }
     }
 }

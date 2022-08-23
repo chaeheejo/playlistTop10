@@ -1,8 +1,10 @@
 package com.example.playlisttop10
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
+import kotlin.math.log
 
 object UserRepository {
     var currUser: User ?= null
@@ -36,12 +38,18 @@ object UserRepository {
                 .await()
 
             if (documentSnapshot.get("password") == password) {
-                currUser = User(id, password, documentSnapshot.get("name").toString(), emptyList())
+                currUser = User(id, password, documentSnapshot.get("name").toString(), mutableListOf())
+                Log.d("DEBUG", "tryLogIn111: $currUser")
 
                 try{
-                    currUser!!.songList = documentSnapshot.get("playlist") as List<Song>
+                    val playlist = documentSnapshot.get("playlist") as List<*>
+
+                    for (song in playlist){
+                        song as HashMap<*, *>
+                        currUser!!.songList.add(Song(song["title"].toString(), song["singer"].toString(), song["album"].toString()))
+                    }
                 }catch (e: Exception){
-                    currUser!!.songList = emptyList()
+                    currUser!!.songList = mutableListOf()
                 }
 
                 Result.success("success")

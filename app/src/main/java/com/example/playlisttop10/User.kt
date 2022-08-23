@@ -4,5 +4,5 @@ data class User(
     var id: String = "",
     var password: String = "",
     var name: String = "",
-    var songList: List<Song> = listOf()
+    var songList: MutableList<Song> = mutableListOf<Song>()
 )

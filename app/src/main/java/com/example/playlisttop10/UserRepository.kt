@@ -102,4 +102,8 @@ object UserRepository {
     private fun canSongBeRegistered(song: Song): Boolean{
         return song !in currUser!!.songList
     }
+
+    suspend fun modifySongInformation(song: Song): Result<String>{
+        val db = FirebaseFirestore.getInstance()
+    }
 }

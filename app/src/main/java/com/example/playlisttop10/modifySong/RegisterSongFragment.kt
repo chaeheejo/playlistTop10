@@ -1,4 +1,4 @@
-package com.example.playlisttop10.songregistration
+package com.example.playlisttop10.modifySong
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.playlisttop10.R
 import com.example.playlisttop10.Song
 import com.example.playlisttop10.databinding.FragmentRegisterSongBinding

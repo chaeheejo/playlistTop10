@@ -4,40 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modifySong.RegisterSongFragment">
+    tools:context=".modifySong.ModifySongFragment">
 
     <TextView
-        android:id="@+id/register_tv_title"
+        android:id="@+id/modify_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="title"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
-        app:layout_constraintStart_toStartOf="@+id/register_et_title" />
+        app:layout_constraintStart_toStartOf="@+id/modify_et_title" />
 
     <TextView
-        android:id="@+id/register_tv_singer"
+        android:id="@+id/modify_tv_singer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="singer"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/register_et_singer"
-        app:layout_constraintStart_toStartOf="@+id/register_et_singer" />
+        app:layout_constraintBottom_toTopOf="@+id/modify_et_singer"
+        app:layout_constraintStart_toStartOf="@+id/modify_et_singer" />
 
     <TextView
-        android:id="@+id/register_tv_album"
+        android:id="@+id/modify_tv_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="album name"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/register_et_album"
-        app:layout_constraintStart_toStartOf="@+id/register_et_album" />
+        app:layout_constraintBottom_toTopOf="@+id/modify_et_album"
+        app:layout_constraintStart_toStartOf="@+id/modify_et_album" />
 
     <EditText
-        android:id="@+id/register_et_album"
+        android:id="@+id/modify_et_album"
         android:layout_width="318dp"
         android:layout_height="41dp"
         android:layout_marginTop="32dp"
@@ -46,10 +46,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_et_singer" />
+        app:layout_constraintTop_toBottomOf="@+id/modify_et_singer" />
 
     <EditText
-        android:id="@+id/register_et_singer"
+        android:id="@+id/modify_et_singer"
         android:layout_width="318dp"
         android:layout_height="41dp"
         android:layout_marginTop="32dp"
@@ -58,10 +58,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_et_title" />
+        app:layout_constraintTop_toBottomOf="@+id/modify_et_title" />
 
     <EditText
-        android:id="@+id/register_et_title"
+        android:id="@+id/modify_et_title"
         android:layout_width="320dp"
         android:layout_height="43dp"
         android:ems="10"
@@ -72,14 +72,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
     <Button
-        android:id="@+id/register_btn_submit"
+        android:id="@+id/modify_btn_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="submit"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_et_album" />
+        app:layout_constraintTop_toBottomOf="@+id/modify_et_album" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -96,15 +96,14 @@
         app:layout_constraintGuide_percent="0.70" />
 
     <TextView
-        android:id="@+id/register_tv_register"
+        android:id="@+id/modify_tv_modify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Register Song"
+        android:text="Modify Song"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -1,4 +1,4 @@
-package com.example.playlisttop10.songregistration
+package com.example.playlisttop10.playlist
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel

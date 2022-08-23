@@ -28,21 +28,45 @@
     </fragment>
     <fragment
         android:id="@+id/playlistFragment"
-        android:name="com.example.playlisttop10.songregistration.PlaylistFragment"
+        android:name="com.example.playlisttop10.playlist.PlaylistFragment"
         android:label="fragment_playlist"
         tools:layout="@layout/fragment_playlist" >
         <action
             android:id="@+id/action_playlistFragment_to_registerSongFragment"
             app:destination="@id/registerSongFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_modifySongFragment"
+            app:destination="@id/modifySongFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerSongFragment"
-        android:name="com.example.playlisttop10.songregistration.RegisterSongFragment"
+        android:name="com.example.playlisttop10.modifySong.RegisterSongFragment"
         android:label="fragment_register_song"
         tools:layout="@layout/fragment_register_song" >
         <action
             android:id="@+id/action_registerSongFragment_to_playlistFragment"
             app:destination="@id/playlistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modifySongFragment"
+        android:name="com.example.playlisttop10.modifySong.ModifySongFragment"
+        android:label="fragment_modify_song"
+        tools:layout="@layout/fragment_modify_song" >
+        <action
+            android:id="@+id/action_modifySongFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="title" />
+        <argument
+            android:name="singer"
+            app:argType="string"
+            android:defaultValue="singer" />
+        <argument
+            android:name="album"
+            app:argType="string"
+            android:defaultValue="album" />
     </fragment>
 
 

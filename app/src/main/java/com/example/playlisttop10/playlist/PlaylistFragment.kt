@@ -1,18 +1,18 @@
-package com.example.playlisttop10.songregistration
+package com.example.playlisttop10.playlist
 
 import android.os.Bundle
-import android.util.Log
+import android.os.WorkSource
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.ComposeView
@@ -27,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlisttop10.Song
-import kotlin.reflect.typeOf
 
 
 class PlaylistFragment : Fragment() {
@@ -82,22 +81,23 @@ class PlaylistFragment : Fragment() {
     ) {
         LazyColumn(content = {
             items(count = elementList.size) {
-                Element(elementList[it])
+                Element(elementList[it], onClick = { onClick(elementList[it]) })
             }
         })
     }
 
     @Composable
-    fun Element(song: Song) {
+    fun Element(song: Song, onClick: () -> Unit) {
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { onClick },
             elevation = 2.dp,
             backgroundColor = Color.White,
             shape = RoundedCornerShape(corner = CornerSize(16.dp))
         ) {
-            Row{
+            Row {
                 Column(
                     Modifier
                         .fillMaxWidth()
@@ -117,6 +117,10 @@ class PlaylistFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun onClick(song: Song){
+        val action = PlaylistFragmentDirections.actionPlaylistFragmentToModifySongFragment(song.title, song.singer, song.album)
+        findNavController().navigate(action)
     }
 }

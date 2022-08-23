@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".songregistration.PlaylistFragment" >
+    tools:context=".playlist.PlaylistFragment" >
 
     <TextView
         android:id="@+id/playlist_tv_title"

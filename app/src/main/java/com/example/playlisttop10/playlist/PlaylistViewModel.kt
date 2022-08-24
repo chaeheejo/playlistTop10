@@ -1,4 +1,4 @@
-package com.example.playlisttop10.songregistration
+package com.example.playlisttop10.playlist
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
@@ -13,7 +13,7 @@ class PlaylistViewModel : ViewModel() {
 
     fun loadMySongs() {
         CoroutineScope(Dispatchers.IO).launch {
-            val mySongList = UserRepository.currUser?.songList
+            val mySongList = UserRepository.currUser?.playlist
 
             if (mySongList != null){
                 songList.clear()

@@ -53,14 +53,17 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
-        loginViewModel.isLoggedIn().observe(viewLifecycleOwner, Observer {
-            when (it) {
-                true -> findNavController().navigate(R.id.action_loginFragment_to_playlistFragment)
-                false -> Toast.makeText(activity, loginViewModel.getErrorMessage()!!, Toast.LENGTH_SHORT).show()
+        loginViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().navigate(R.id.action_loginFragment_to_playlistFragment)
             }
         })
 
-
+        loginViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null && it != "") {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onDestroyView() {

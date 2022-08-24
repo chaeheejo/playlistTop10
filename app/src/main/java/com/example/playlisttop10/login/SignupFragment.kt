@@ -10,10 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlisttop10.R
-import com.example.playlisttop10.User
 import com.example.playlisttop10.databinding.FragmentSignupBinding
 
 class SignupFragment : Fragment() {
@@ -47,19 +45,22 @@ class SignupFragment : Fragment() {
             val password = et_password.text.toString()
             val name = et_name.text.toString()
 
-            when (val result: String ?= signupViewModel.validateInformationForm(id, password, name)) {
+            when (val result: String? =
+                signupViewModel.validateInformationForm(id, password, name)) {
                 null -> signupViewModel.trySignUp(id, password, name)
                 else -> makeRightToastMessage(result)
             }
         }
 
-        signupViewModel.isSignedUp().observe(viewLifecycleOwner, Observer {
-            when (it) {
-                true -> {
-                    makeRightToastMessage("success")
-                    findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
-                }
-                false -> Toast.makeText(activity, signupViewModel.getErrorMessage()!!, Toast.LENGTH_SHORT).show()
+        signupViewModel.isSignedUp.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+            }
+        })
+
+        signupViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null && it != "") {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -14,6 +14,7 @@
         android:layout_marginStart="4dp"
         android:text="password"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/logIn_et_password"
         app:layout_constraintStart_toStartOf="@+id/logIn_et_password" />
 
@@ -24,6 +25,7 @@
         android:layout_marginStart="4dp"
         android:text="ID"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/logIn_et_id"
         app:layout_constraintStart_toStartOf="@+id/logIn_et_id" />
 
@@ -57,7 +59,7 @@
         android:text="log In"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logIn_et_password" />
 
@@ -68,7 +70,7 @@
         android:text="sign up"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logIn_et_password" />
 
@@ -93,6 +95,7 @@
         android:layout_marginTop="24dp"
         android:text="Log In"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

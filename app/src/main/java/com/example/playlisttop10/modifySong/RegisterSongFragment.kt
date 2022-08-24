@@ -1,4 +1,4 @@
-package com.example.playlisttop10.songregistration
+package com.example.playlisttop10.modifySong
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -41,7 +41,7 @@ class RegisterSongFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_submit.setOnClickListener{
+        btn_submit.setOnClickListener {
             val title = et_title.text.toString()
             val singer = et_singer.text.toString()
             val album = et_album.text.toString()
@@ -51,11 +51,21 @@ class RegisterSongFragment : Fragment() {
             registerSongViewModel.tryRegisterSong(song)
         }
 
-        registerSongViewModel.isSongRegistered().observe(viewLifecycleOwner, Observer {
-            when(it){
-                true -> findNavController().navigate(R.id.action_registerSongFragment_to_playlistFragment)
-                false -> Toast.makeText(activity, registerSongViewModel.getErrorMessage()!!, Toast.LENGTH_SHORT).show()
+        registerSongViewModel.isSongRegistered.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().navigate(R.id.action_registerSongFragment_to_playlistFragment)
             }
         })
+
+        registerSongViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null && it != "") {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

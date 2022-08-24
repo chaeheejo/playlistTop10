@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.playlisttop10.R
 import com.example.playlisttop10.Song
 import com.example.playlisttop10.databinding.FragmentRegisterSongBinding
@@ -42,7 +41,7 @@ class RegisterSongFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_submit.setOnClickListener{
+        btn_submit.setOnClickListener {
             val title = et_title.text.toString()
             val singer = et_singer.text.toString()
             val album = et_album.text.toString()
@@ -52,11 +51,21 @@ class RegisterSongFragment : Fragment() {
             registerSongViewModel.tryRegisterSong(song)
         }
 
-        registerSongViewModel.isSongRegistered().observe(viewLifecycleOwner, Observer {
-            when(it){
-                true -> findNavController().navigate(R.id.action_registerSongFragment_to_playlistFragment)
-                false -> Toast.makeText(activity, registerSongViewModel.getErrorMessage()!!, Toast.LENGTH_SHORT).show()
+        registerSongViewModel.isSongRegistered.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().navigate(R.id.action_registerSongFragment_to_playlistFragment)
             }
         })
+
+        registerSongViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null && it != "") {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -37,6 +37,12 @@
         <action
             android:id="@+id/action_playlistFragment_to_updateSongFragment"
             app:destination="@id/updateSongFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_likedFriendFragment"
+            app:destination="@id/likedFriendFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_friendListFragment"
+            app:destination="@id/friendListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerSongFragment"
@@ -67,6 +73,30 @@
             android:name="album"
             app:argType="string"
             android:defaultValue="album" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendListFragment"
+        android:name="com.example.playlisttop10.friend.FriendListFragment"
+        android:label="fragment_friend_list"
+        tools:layout="@layout/fragment_friend_list" >
+        <action
+            android:id="@+id/action_friendListFragment_to_likedFriendFragment"
+            app:destination="@id/likedFriendFragment" />
+        <action
+            android:id="@+id/action_friendListFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/likedFriendFragment"
+        android:name="com.example.playlisttop10.friend.LikedFriendFragment"
+        android:label="fragment_liked_friend"
+        tools:layout="@layout/fragment_liked_friend" >
+        <action
+            android:id="@+id/action_likedFriendFragment_to_friendListFragment"
+            app:destination="@id/friendListFragment" />
+        <action
+            android:id="@+id/action_likedFriendFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
     </fragment>
 
 

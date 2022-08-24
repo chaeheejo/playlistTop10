@@ -13,6 +13,7 @@
         android:layout_marginStart="4dp"
         android:text="id"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintStart_toStartOf="@+id/signUp_et_id" />
 
@@ -23,6 +24,7 @@
         android:layout_marginStart="4dp"
         android:text="password"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/signUp_et_password"
         app:layout_constraintStart_toStartOf="@+id/signUp_et_password" />
 
@@ -33,6 +35,7 @@
         android:layout_marginStart="4dp"
         android:text="name"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/signUp_et_name"
         app:layout_constraintStart_toStartOf="@+id/signUp_et_name" />
 
@@ -103,6 +106,7 @@
         android:layout_marginTop="24dp"
         android:text="Sign Up"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

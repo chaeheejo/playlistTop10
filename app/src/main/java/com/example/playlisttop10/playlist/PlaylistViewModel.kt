@@ -13,7 +13,7 @@ class PlaylistViewModel : ViewModel() {
 
     fun loadMySongs() {
         CoroutineScope(Dispatchers.IO).launch {
-            val mySongList = UserRepository.currUser?.songList
+            val mySongList = UserRepository.currUser?.playlist
 
             if (mySongList != null){
                 songList.clear()

@@ -3,10 +3,8 @@ package com.example.playlisttop10.playlist
 import android.os.Bundle
 import android.os.WorkSource
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,7 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import com.example.playlisttop10.Song
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 
 
 class PlaylistFragment : Fragment() {
@@ -36,8 +40,11 @@ class PlaylistFragment : Fragment() {
     private lateinit var playlistViewModel: PlaylistViewModel
 
     private lateinit var tv_title: TextView
-    private lateinit var btn_register: ImageButton
     private lateinit var cv_list: ComposeView
+    private lateinit var btn_register: ImageButton
+    private lateinit var btn_home: ImageButton
+    private lateinit var btn_friends: ImageButton
+    private lateinit var btn_like: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +53,14 @@ class PlaylistFragment : Fragment() {
         playlistViewModel = ViewModelProvider(requireActivity())[PlaylistViewModel::class.java]
         _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         tv_title = binding.playlistTvTitle
-        btn_register = binding.playlistBtnRegister
         cv_list = binding.playlistCvList
+        btn_register = binding.playlistBtnRegister
+        btn_home = binding.playlistBtnHome
+        btn_friends = binding.playlistBtnFriends
+        btn_like = binding.playlistBtnLike
+
+        btn_home.setColorFilter(getColor(requireContext(), R.color.light_blue))
+
 
         return binding.root
     }
@@ -72,6 +85,14 @@ class PlaylistFragment : Fragment() {
             ) {
                 ElementList(songList)
             }
+        }
+
+        btn_friends.setOnClickListener {
+            findNavController().navigate(R.id.action_playlistFragment_to_friendListFragment)
+        }
+
+        btn_like.setOnClickListener {
+            findNavController().navigate(R.id.action_playlistFragment_to_likedFriendFragment)
         }
 
     }
@@ -123,5 +144,14 @@ class PlaylistFragment : Fragment() {
     private fun onClick(song: Song){
         val action = PlaylistFragmentDirections.actionPlaylistFragmentToUpdateSongFragment(song.title, song.singer, song.album)
         findNavController().navigate(action)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

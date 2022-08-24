@@ -8,29 +8,26 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel: ViewModel() {
+class LoginViewModel : ViewModel() {
     private val loggedIn = MutableLiveData<Boolean>()
-    private var errorMessage: String ?= ""
+    val isLoggedIn: LiveData<Boolean> = loggedIn
 
-    fun tryLogIn(id: String, password: String){
+    private var _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
+    fun tryLogIn(id: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val result = UserRepository.tryLogIn(id, password)
 
-            errorMessage = if (result.isSuccess) {
-                loggedIn.postValue(true)
-                ""
-            } else {
-                loggedIn.postValue(false)
-                result.exceptionOrNull()?.message
-            }
+            _errorMessage.postValue(
+                if (result.isSuccess) {
+                    loggedIn.postValue(true)
+                    ""
+                } else {
+                    loggedIn.postValue(false)
+                    result.exceptionOrNull()?.message
+                }
+            )
         }
-    }
-
-    fun isLoggedIn(): LiveData<Boolean>{
-        return loggedIn
-    }
-
-    fun getErrorMessage(): String?{
-        return errorMessage
     }
 }

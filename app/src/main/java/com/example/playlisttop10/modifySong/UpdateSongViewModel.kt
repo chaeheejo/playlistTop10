@@ -1,5 +1,6 @@
 package com.example.playlisttop10.modifySong
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlisttop10.Song
@@ -10,11 +11,14 @@ import kotlinx.coroutines.launch
 
 class UpdateSongViewModel : ViewModel() {
     private val songUpdated = MutableLiveData<Boolean>()
-    private var errorMessage: String? = ""
+    val isSongUpdated: LiveData<Boolean> = songUpdated
+
+    private var _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
 
     fun updateSongInformation(oldSong: Song, newSong: Song) {
         if (newSong.singer.isEmpty() || newSong.album.isEmpty()) {
-            errorMessage = "empty field is not allowed"
+            _errorMessage.value = "empty field is not allowed"
             songUpdated.value = false
             return
         }
@@ -22,21 +26,15 @@ class UpdateSongViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = UserRepository.updateSongInformation(oldSong, newSong)
 
-            errorMessage = if (result.isSuccess) {
-                songUpdated.postValue(true)
-                ""
-            } else {
-                songUpdated.postValue(false)
-                result.exceptionOrNull()?.message
-            }
+            _errorMessage.postValue(
+                if (result.isSuccess) {
+                    songUpdated.postValue(true)
+                    ""
+                } else {
+                    songUpdated.postValue(false)
+                    result.exceptionOrNull()?.message
+                }
+            )
         }
-    }
-
-    fun isSongUpdated(): MutableLiveData<Boolean> {
-        return songUpdated
-    }
-
-    fun getErrorMessage(): String? {
-        return errorMessage
     }
 }

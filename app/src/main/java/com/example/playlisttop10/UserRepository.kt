@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
-import java.lang.ClassCastException
 
 object UserRepository {
     var currUser: User ?= null
@@ -45,15 +44,11 @@ object UserRepository {
 
                     for (song in playlist){
                         song as HashMap<*, *>
-                        currUser!!.songList.add(Song(song["title"].toString(), song["singer"].toString(), song["album"].toString()))
+                        currUser!!.playlist.add(Song(song["title"].toString(), song["singer"].toString(), song["album"].toString()))
                     }
-//                }
-//                catch (e: ClassCastException){
-//                    val playlist = documentSnapshot.get("playlist") as HashMap<String, String>
-//                    currUser!!.songList.add(Song(playlist["title"]!!, playlist["singer"]!!, playlist["album"]!!))
                 }catch (e: Exception){
                     Log.d("DEBUG", "tryLogIn: ${e.message}")
-                    currUser!!.songList = mutableListOf()
+                    currUser!!.playlist = mutableListOf()
                 }
 
                 Result.success("success")
@@ -83,12 +78,12 @@ object UserRepository {
         val db = FirebaseFirestore.getInstance()
         val newSongListMap: MutableList<Song> = mutableListOf()
 
-        if (currUser!!.songList.isNotEmpty()){
-            newSongListMap.addAll(currUser!!.songList)
+        if (currUser!!.playlist.isNotEmpty()){
+            newSongListMap.addAll(currUser!!.playlist)
         }
 
         newSongListMap.add(song)
-        currUser!!.songList = newSongListMap
+        currUser!!.playlist = newSongListMap
 
         val keyMap = hashMapOf("playlist" to newSongListMap)
 
@@ -104,21 +99,23 @@ object UserRepository {
     }
 
     private fun doesSongExistInSongList(song: Song): Boolean{
-        return song !in currUser!!.songList
+        return song !in currUser!!.playlist
     }
 
     suspend fun updateSongInformation(oldSong: Song, newSong: Song): Result<String>{
         val db = FirebaseFirestore.getInstance()
 
-        currUser!!.songList.remove(oldSong)
-        currUser!!.songList.add(newSong)
-
-        val keyMap = hashMapOf("playlist" to currUser!!.songList)
+        for (tmp in currUser!!.playlist){
+            if (tmp == oldSong){
+                tmp.singer = newSong.singer
+                tmp.album = newSong.album
+            }
+        }
 
         return try{
             db.collection("user")
                 .document(currUser!!.id)
-                .update("playlist", keyMap)
+                .update("playlist", currUser!!.playlist)
                 .await()
             Result.success("success")
         }catch (e: Exception){

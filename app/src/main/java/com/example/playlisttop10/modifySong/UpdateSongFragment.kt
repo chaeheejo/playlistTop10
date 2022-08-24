@@ -36,7 +36,7 @@ class UpdateSongFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         updateSongViewModel = ViewModelProvider(this)[UpdateSongViewModel::class.java]
         _binding = FragmentUpdateSongBinding.inflate(inflater, container, false)
         tv_title = binding.updateTvSongTitle
@@ -65,14 +65,15 @@ class UpdateSongFragment : Fragment() {
             )
         }
 
-        updateSongViewModel.isSongUpdated().observe(viewLifecycleOwner, Observer {
-            when (it) {
-                true -> findNavController().navigate(R.id.action_updateSongFragment_to_playlistFragment)
-                false -> Toast.makeText(
-                    activity,
-                    updateSongViewModel.getErrorMessage()!!,
-                    Toast.LENGTH_SHORT
-                ).show()
+        updateSongViewModel.isSongUpdated.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().navigate(R.id.action_updateSongFragment_to_playlistFragment)
+            }
+        })
+
+        updateSongViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null && it != "") {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
             }
         })
     }

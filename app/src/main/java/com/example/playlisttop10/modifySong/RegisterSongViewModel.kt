@@ -1,5 +1,6 @@
 package com.example.playlisttop10.modifySong
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlisttop10.Song
@@ -8,29 +9,26 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RegisterSongViewModel: ViewModel() {
+class RegisterSongViewModel : ViewModel() {
     private val songRegistered = MutableLiveData<Boolean>()
-    private var errorMessage: String ?= ""
+    val isSongRegistered: LiveData<Boolean> = songRegistered
 
-    fun tryRegisterSong(song: Song){
-        CoroutineScope(Dispatchers.IO).launch{
+    private var _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
+    fun tryRegisterSong(song: Song) {
+        CoroutineScope(Dispatchers.IO).launch {
             val result = UserRepository.tryRegisterMySong(song)
 
-            errorMessage = if (result.isSuccess){
-                songRegistered.postValue(true)
-                ""
-            }else {
-                songRegistered.postValue(false)
-                result.exceptionOrNull()?.message
-            }
+            _errorMessage.postValue(
+                if (result.isSuccess) {
+                    songRegistered.postValue(true)
+                    ""
+                } else {
+                    songRegistered.postValue(false)
+                    result.exceptionOrNull()?.message
+                }
+            )
         }
-    }
-
-    fun isSongRegistered(): MutableLiveData<Boolean> {
-        return songRegistered
-    }
-
-    fun getErrorMessage(): String?{
-        return errorMessage
     }
 }

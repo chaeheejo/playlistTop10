@@ -2,6 +2,7 @@ package com.example.playlisttop10.playlist
 
 import android.os.Bundle
 import android.os.WorkSource
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -81,18 +82,18 @@ class PlaylistFragment : Fragment() {
     ) {
         LazyColumn(content = {
             items(count = elementList.size) {
-                Element(elementList[it], onClick = { onClick(elementList[it]) })
+                Element(elementList[it])
             }
         })
     }
 
     @Composable
-    fun Element(song: Song, onClick: () -> Unit) {
+    fun Element(song: Song) {
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
                 .fillMaxWidth()
-                .clickable { onClick },
+                .clickable { onClick(song) },
             elevation = 2.dp,
             backgroundColor = Color.White,
             shape = RoundedCornerShape(corner = CornerSize(16.dp))
@@ -120,7 +121,7 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun onClick(song: Song){
-        val action = PlaylistFragmentDirections.actionPlaylistFragmentToModifySongFragment(song.title, song.singer, song.album)
+        val action = PlaylistFragmentDirections.actionPlaylistFragmentToUpdateSongFragment(song.title, song.singer, song.album)
         findNavController().navigate(action)
     }
 }

@@ -35,8 +35,8 @@
             android:id="@+id/action_playlistFragment_to_registerSongFragment"
             app:destination="@id/registerSongFragment" />
         <action
-            android:id="@+id/action_playlistFragment_to_modifySongFragment"
-            app:destination="@id/modifySongFragment" />
+            android:id="@+id/action_playlistFragment_to_updateSongFragment"
+            app:destination="@id/updateSongFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerSongFragment"
@@ -48,12 +48,12 @@
             app:destination="@id/playlistFragment" />
     </fragment>
     <fragment
-        android:id="@+id/modifySongFragment"
-        android:name="com.example.playlisttop10.modifySong.ModifySongFragment"
-        android:label="fragment_modify_song"
-        tools:layout="@layout/fragment_modify_song" >
+        android:id="@+id/updateSongFragment"
+        android:name="com.example.playlisttop10.modifySong.UpdateSongFragment"
+        android:label="fragment_update_song"
+        tools:layout="@layout/fragment_update_song" >
         <action
-            android:id="@+id/action_modifySongFragment_to_playlistFragment"
+            android:id="@+id/action_updateSongFragment_to_playlistFragment"
             app:destination="@id/playlistFragment" />
         <argument
             android:name="title"

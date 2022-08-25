@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <ImageButton
-            android:id="@+id/liked_btn_home"
+            android:id="@+id/liked_btn_playlist"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -50,7 +50,7 @@
             android:adjustViewBounds="true"
             android:background="@color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_friends" />
+            android:src="@drawable/ic_users" />
 
         <ImageButton
             android:id="@+id/liked_btn_like"
@@ -60,7 +60,7 @@
             android:adjustViewBounds="true"
             android:background="@color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_like" />
+            android:src="@drawable/ic_liked" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

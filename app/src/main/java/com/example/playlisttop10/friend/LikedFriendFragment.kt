@@ -2,15 +2,16 @@ package com.example.playlisttop10.friend
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.playlisttop10.R
-import com.example.playlisttop10.databinding.FragmentFriendListBinding
+import com.example.playlisttop10.UserRepository
 import com.example.playlisttop10.databinding.FragmentLikedFriendBinding
 
 class LikedFriendFragment : Fragment() {
@@ -18,7 +19,7 @@ class LikedFriendFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var likedFriendViewModel: LikedFriendViewModel
 
-    private lateinit var btn_home: ImageButton
+    private lateinit var btn_playlist: ImageButton
     private lateinit var btn_friends: ImageButton
     private lateinit var btn_like: ImageButton
 
@@ -29,7 +30,7 @@ class LikedFriendFragment : Fragment() {
         likedFriendViewModel = ViewModelProvider(requireActivity())[LikedFriendViewModel::class.java]
         _binding = FragmentLikedFriendBinding.inflate(inflater, container, false)
 
-        btn_home = binding.likedBtnHome
+        btn_playlist = binding.likedBtnPlaylist
         btn_friends = binding.likedBtnFriends
         btn_like = binding.likedBtnLike
 
@@ -41,12 +42,31 @@ class LikedFriendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_home.setOnClickListener {
+        btn_playlist.setOnClickListener {
             findNavController().navigate(R.id.action_likedFriendFragment_to_playlistFragment)
         }
 
         btn_friends.setOnClickListener {
-            findNavController().navigate(R.id.action_likedFriendFragment_to_friendListFragment)
+            findNavController().navigate(R.id.action_likedFriendFragment_to_userListFragment)
         }
+
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                UserRepository.currUser = null
+                findNavController().navigate(R.id.action_likedFriendFragment_to_loginFragment)
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

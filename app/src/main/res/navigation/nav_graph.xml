@@ -41,8 +41,11 @@
             android:id="@+id/action_playlistFragment_to_likedFriendFragment"
             app:destination="@id/likedFriendFragment" />
         <action
-            android:id="@+id/action_playlistFragment_to_friendListFragment"
-            app:destination="@id/friendListFragment" />
+            android:id="@+id/action_playlistFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_userListFragment"
+            app:destination="@id/userListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerSongFragment"
@@ -75,28 +78,34 @@
             android:defaultValue="album" />
     </fragment>
     <fragment
-        android:id="@+id/friendListFragment"
-        android:name="com.example.playlisttop10.friend.FriendListFragment"
-        android:label="fragment_friend_list"
-        tools:layout="@layout/fragment_friend_list" >
-        <action
-            android:id="@+id/action_friendListFragment_to_likedFriendFragment"
-            app:destination="@id/likedFriendFragment" />
-        <action
-            android:id="@+id/action_friendListFragment_to_playlistFragment"
-            app:destination="@id/playlistFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/likedFriendFragment"
         android:name="com.example.playlisttop10.friend.LikedFriendFragment"
         android:label="fragment_liked_friend"
         tools:layout="@layout/fragment_liked_friend" >
         <action
-            android:id="@+id/action_likedFriendFragment_to_friendListFragment"
-            app:destination="@id/friendListFragment" />
-        <action
             android:id="@+id/action_likedFriendFragment_to_playlistFragment"
             app:destination="@id/playlistFragment" />
+        <action
+            android:id="@+id/action_likedFriendFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_likedFriendFragment_to_userListFragment"
+            app:destination="@id/userListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.example.playlisttop10.friend.UserListFragment"
+        android:label="fragment_user_list"
+        tools:layout="@layout/fragment_user_list" >
+        <action
+            android:id="@+id/action_userListFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+        <action
+            android:id="@+id/action_userListFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_userListFragment_to_likedFriendFragment"
+            app:destination="@id/likedFriendFragment" />
     </fragment>
 
 

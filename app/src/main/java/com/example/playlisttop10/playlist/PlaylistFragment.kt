@@ -1,8 +1,6 @@
 package com.example.playlisttop10.playlist
 
 import android.os.Bundle
-import android.os.WorkSource
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -30,8 +28,6 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import com.example.playlisttop10.Song
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
 
 
 class PlaylistFragment : Fragment() {
@@ -42,7 +38,7 @@ class PlaylistFragment : Fragment() {
     private lateinit var tv_title: TextView
     private lateinit var cv_list: ComposeView
     private lateinit var btn_register: ImageButton
-    private lateinit var btn_home: ImageButton
+    private lateinit var btn_playlist: ImageButton
     private lateinit var btn_friends: ImageButton
     private lateinit var btn_like: ImageButton
 
@@ -55,12 +51,11 @@ class PlaylistFragment : Fragment() {
         tv_title = binding.playlistTvTitle
         cv_list = binding.playlistCvList
         btn_register = binding.playlistBtnRegister
-        btn_home = binding.playlistBtnHome
+        btn_playlist = binding.playlistBtnPlaylist
         btn_friends = binding.playlistBtnFriends
         btn_like = binding.playlistBtnLike
 
-        btn_home.setColorFilter(getColor(requireContext(), R.color.light_blue))
-
+        btn_playlist.setColorFilter(getColor(requireContext(), R.color.light_blue))
 
         return binding.root
     }
@@ -69,11 +64,7 @@ class PlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val name = UserRepository.currUser!!.name
-        tv_title.text = "$name's TOP10 List"
-
-        btn_register.setOnClickListener {
-            findNavController().navigate(R.id.action_playlistFragment_to_registerSongFragment)
-        }
+        tv_title.text = "$name's TOP10 playlist"
 
         playlistViewModel.loadMySongs()
 
@@ -87,14 +78,41 @@ class PlaylistFragment : Fragment() {
             }
         }
 
+        btn_register.setOnClickListener {
+            findNavController().navigate(R.id.action_playlistFragment_to_registerSongFragment)
+        }
+
         btn_friends.setOnClickListener {
-            findNavController().navigate(R.id.action_playlistFragment_to_friendListFragment)
+            findNavController().navigate(R.id.action_playlistFragment_to_userListFragment)
         }
 
         btn_like.setOnClickListener {
             findNavController().navigate(R.id.action_playlistFragment_to_likedFriendFragment)
         }
 
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                UserRepository.currUser = null
+                findNavController().navigate(R.id.action_playlistFragment_to_loginFragment)
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+    }
+
+    private fun onClick(song: Song) {
+        val action = PlaylistFragmentDirections.actionPlaylistFragmentToUpdateSongFragment(
+            song.title,
+            song.singer,
+            song.album
+        )
+        findNavController().navigate(action)
     }
 
     @Composable
@@ -119,35 +137,23 @@ class PlaylistFragment : Fragment() {
             backgroundColor = Color.White,
             shape = RoundedCornerShape(corner = CornerSize(16.dp))
         ) {
-            Row {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .align(Alignment.CenterVertically)
-                ) {
-                    Text(
-                        text = song.title, fontSize = 33.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                    Text(
-                        text = song.album, fontSize = 20.sp
-                    )
-                    Text(
-                        text = song.singer, fontSize = 20.sp
-                    )
-                }
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = song.title, fontSize = 33.sp,
+                    fontWeight = FontWeight.Medium
+                )
+                Text(
+                    text = song.album, fontSize = 20.sp
+                )
+                Text(
+                    text = song.singer, fontSize = 20.sp
+                )
             }
         }
-    }
-
-    private fun onClick(song: Song){
-        val action = PlaylistFragmentDirections.actionPlaylistFragmentToUpdateSongFragment(song.title, song.singer, song.album)
-        findNavController().navigate(action)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onDestroyView() {

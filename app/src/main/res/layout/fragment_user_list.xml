@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".friend.FriendListFragment">
+    tools:context=".friend.UserListFragment">
 
     <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/friend_cv_list"
+        android:id="@+id/user_cv_users"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/guideline"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <ImageButton
-            android:id="@+id/friend_btn_home"
+            android:id="@+id/user_btn_playlist"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -43,24 +43,24 @@
             android:src="@drawable/ic_home" />
 
         <ImageButton
-            android:id="@+id/friend_btn_friends"
+            android:id="@+id/user_btn_friends"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_friends" />
+            android:src="@drawable/ic_users" />
 
         <ImageButton
-            android:id="@+id/friend_btn_like"
+            android:id="@+id/user_btn_like"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_like" />
+            android:src="@drawable/ic_liked" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

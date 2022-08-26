@@ -58,7 +58,7 @@ class FavoriteFriendFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                UserRepository.currUser = null
+                UserRepository.clear()
                 findNavController().navigate(R.id.action_favoriteFriendFragment_to_loginFragment)
                 return true
             }

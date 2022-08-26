@@ -1,30 +1,37 @@
 package com.example.playlisttop10
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 
 object UserRepository {
     var currUser: User? = null
-    var allUserMap = HashMap<String, User>()
-    var allUserIdList = mutableListOf<String>()
+    private var allFriendsMap = hashMapOf<String, User>()
+    private var allFriendsList = mutableListOf<String>()
+
+    fun clear() {
+        currUser = null
+        allFriendsMap = hashMapOf()
+        allFriendsList = mutableListOf()
+    }
 
     suspend fun trySignUp(id: String, password: String, name: String): Result<String> {
         val db = FirebaseFirestore.getInstance()
 
         if (doesDuplicateIdExist(id))
-            return Result.failure(Exception("Id Already Exists"))
+            return Result.failure(Exception("id already exists"))
 
-        val userMap = hashMapOf<String, String>("id" to id, "password" to password, "name" to name)
+        val user = User(id = id, password = password, name = name)
 
         return try {
             db.collection("user")
                 .document(id)
-                .set(userMap)
+                .set(user)
                 .await()
             Result.success("Success")
         } catch (e: Exception) {
-            Result.failure(Exception("fail to sign up"))
+            Result.failure(Exception("fail to sign up by network problem"))
         }
     }
 
@@ -36,20 +43,21 @@ object UserRepository {
                 .document(id)
                 .get()
                 .await()
+
+            if (documentSnapshot.data == null) {
+                return Result.failure(Exception("id does not exist"))
+            }
+
             if (documentSnapshot.get("password") == password) {
                 val result = documentSnapshot.toObject(User::class.java)
-
-                if (result != null) {
-                    currUser = result
-                    Result.success("success")
-                } else
-                    Result.failure(Exception("couldn't find user"))
+                currUser = result
+                Result.success("success")
 
             } else {
                 Result.failure(Exception("password does not match"))
             }
         } catch (e: Exception) {
-            Result.failure(Exception("id does not exist"))
+            Result.failure(Exception("fail to log in by network problem"))
         }
     }
 
@@ -116,31 +124,101 @@ object UserRepository {
         }
     }
 
-    suspend fun loadUserList(): Result<List<String>> {
+    suspend fun loadAllFriends(): Result<List<String>> {
         val db = FirebaseFirestore.getInstance()
 
-        allUserMap.clear()
-        allUserIdList.clear()
+        allFriendsMap.clear()
+        allFriendsList.clear()
 
         return try {
             db.collection("user")
+                .orderBy("like", Query.Direction.DESCENDING)
                 .get()
                 .await()
                 .forEach {
-                    allUserIdList.add(it.id)
-                    allUserMap[it.id] = it.toObject(User::class.java)
+                    allFriendsList.add(it.id)
+                    allFriendsMap[it.id] = it.toObject(User::class.java)
                 }
 
-            Result.success(allUserIdList)
+            Result.success(allFriendsList)
         } catch (e: Exception) {
             Result.failure(Exception("fail to load user list"))
         }
     }
 
+    suspend fun tryAddFavoriteFriend(toAddId: String): Result<String> {
+        val db = FirebaseFirestore.getInstance()
+
+        return try {
+            db.collection("like list")
+                .document(currUser!!.id)
+                .set(toAddId, SetOptions.merge())
+                .await()
+
+            loadAllFriends()
+            allFriendsMap[toAddId]!!.like++
+            updateNumberOfLikesForFavoriteFriend(allFriendsMap[toAddId]!!)
+
+            Result.success("success")
+        } catch (e: Exception) {
+            Result.failure(Exception("fail to add favorite friend"))
+        }
+    }
+
+    private fun updateNumberOfLikesForFavoriteFriend(toAddUser: User) {
+        val db = FirebaseFirestore.getInstance()
+        val docRef = db.collection("user").document(toAddUser.id)
+
+        db.runTransaction { transaction ->
+            val snapshot = transaction.get(docRef)
+
+            val newLike = snapshot.get("like") as Int + 1
+            transaction.update(docRef, "like", newLike)
+        }
+    }
+
+    suspend fun tryDeleteFavoriteFriend(toDeleteId: String): Result<String>{
+        val db = FirebaseFirestore.getInstance()
+
+        return try {
+            val documentSnapshot = db.collection("like list")
+                .document(currUser!!.id)
+                .get()
+                .await()
+
+            val likeList = documentSnapshot.get("like")
+
+
+            loadAllFriends()
+            allFriendsMap[toDeleteId]!!.like--
+            deleteNumberOfLikesForFavoriteFriend(allFriendsMap[toDeleteId]!!)
+
+            Result.success("success")
+        } catch (e: Exception) {
+            Result.failure(Exception("fail to add favorite friend"))
+        }
+    }
+
+    private fun deleteNumberOfLikesForFavoriteFriend(toAddUser: User) {
+        val db = FirebaseFirestore.getInstance()
+        val docRef = db.collection("user").document(toAddUser.id)
+
+        db.runTransaction { transaction ->
+            val snapshot = transaction.get(docRef)
+
+            val newLike = snapshot.get("like") as Int - 1
+            transaction.update(docRef, "like", newLike)
+        }
+    }
+
     fun getPlaylistById(id: String): List<Song>? {
-        if (allUserMap[id]!!.playlist.isEmpty()) {
+        if (allFriendsMap[id]!!.playlist.isEmpty()) {
             return null
         }
-        return allUserMap[id]!!.playlist
+        return allFriendsMap[id]!!.playlist
+    }
+
+    fun getNumberOfLikesById(id: String): Int {
+        return allFriendsMap[id]!!.like
     }
 }

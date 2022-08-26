@@ -1,11 +1,10 @@
 package com.example.playlisttop10.friend
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,21 +13,32 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconToggleButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.playlisttop10.R
 import com.example.playlisttop10.Song
+import com.example.playlisttop10.UserRepository
 import com.example.playlisttop10.databinding.FragmentPlaylistByUserBinding
 
 class PlaylistByUserFragment : Fragment() {
@@ -67,9 +77,33 @@ class PlaylistByUserFragment : Fragment() {
             findNavController().navigate(R.id.action_playlistByUserFragment_to_playlistFragment)
         }
 
+        btn_friends.setOnClickListener {
+            findNavController().navigate(R.id.action_playlistByUserFragment_to_friendsFragment)
+        }
+
         btn_favorite.setOnClickListener {
             findNavController().navigate(R.id.action_playlistByUserFragment_to_favoriteFriendFragment)
         }
+
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                UserRepository.clear()
+                findNavController().navigate(R.id.action_playlistByUserFragment_to_loginFragment)
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        playlistByUserViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null && it != "") {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            }
+        })
 
         val playlist = playlistByUserViewModel.getPlaylistById(args.id)
 
@@ -86,6 +120,11 @@ class PlaylistByUserFragment : Fragment() {
                             .padding(top = 14.dp)
                             .align(Alignment.CenterHorizontally)
                     )
+                    FavoriteButton(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(end = 5.dp)
+                    )
                     ElementList(playlist)
                 }
             }
@@ -95,12 +134,24 @@ class PlaylistByUserFragment : Fragment() {
                     Text(
                         text = args.id + "'s playlist is empty",
                         fontSize = 24.sp,
-                        modifier = Modifier.padding(top = 24.dp).align(Alignment.CenterHorizontally)
+                        modifier = Modifier
+                            .padding(top = 24.dp)
+                            .align(Alignment.CenterHorizontally)
                     )
                 }
             }
         }
     }
+
+    private fun onClick(isFavorite: Boolean) {
+        playlistByUserViewModel.tryAddFavoriteFriend(args.id)
+        if (isFavorite){
+            playlistByUserViewModel.tryAddFavoriteFriend(args.id)
+        }else {
+            playlistByUserViewModel.tryDeleteFavoriteFriend(args.id)
+        }
+    }
+
 
     @Composable
     fun ElementList(
@@ -149,4 +200,43 @@ class PlaylistByUserFragment : Fragment() {
             }
         }
     }
+
+    @Composable
+    fun FavoriteButton(
+        modifier: Modifier,
+        color: Color = Color(0xffE91E63)
+    ) {
+
+        var isFavorite by remember { mutableStateOf(false) }
+
+        IconToggleButton(
+            modifier = modifier,
+            checked = isFavorite,
+            onCheckedChange = {
+                isFavorite = !isFavorite
+                onClick(isFavorite)
+            }
+        ) {
+            Icon(
+                tint = color,
+                modifier = Modifier.graphicsLayer {
+                    scaleX = 1.5f
+                    scaleY = 1.5f
+                },
+                imageVector = if (isFavorite) {
+                    Icons.Filled.Favorite
+                } else {
+                    Icons.Default.FavoriteBorder
+                },
+                contentDescription = null
+            )
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
+
+

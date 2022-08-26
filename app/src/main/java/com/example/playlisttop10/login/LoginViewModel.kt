@@ -1,5 +1,6 @@
 package com.example.playlisttop10.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,7 @@ class LoginViewModel : ViewModel() {
                     ""
                 } else {
                     loggedIn.postValue(false)
+                    Log.d("DEBUG", "tryLogIn: ${result.exceptionOrNull()}")
                     result.exceptionOrNull()?.message
                 }
             )

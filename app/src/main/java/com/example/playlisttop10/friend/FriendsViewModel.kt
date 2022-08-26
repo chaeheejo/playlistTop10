@@ -36,4 +36,18 @@ class FriendsViewModel : ViewModel() {
             )
         }
     }
+
+    fun loadMyFavoriteFriendList(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = UserRepository.loadMyFavoriteFriendList()
+
+            _errorMessage.postValue(
+                if (result.isSuccess) {
+                    ""
+                } else {
+                    result.exceptionOrNull()?.message
+                }
+            )
+        }
+    }
 }

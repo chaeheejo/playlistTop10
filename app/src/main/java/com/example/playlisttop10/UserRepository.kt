@@ -9,6 +9,7 @@ object UserRepository {
     var currUser: User? = null
     private var allFriendsMap = hashMapOf<String, User>()
     private var allFriendsList = mutableListOf<String>()
+    private var myFavoriteFriendList = mutableListOf<String>()
 
     fun clear() {
         currUser = null
@@ -23,12 +24,19 @@ object UserRepository {
             return Result.failure(Exception("id already exists"))
 
         val user = User(id = id, password = password, name = name)
+        val likeMap = hashMapOf("like list" to emptyList<String>())
 
         return try {
             db.collection("user")
                 .document(id)
                 .set(user)
                 .await()
+
+            db.collection("like list")
+                .document(id)
+                .set(likeMap)
+                .await()
+
             Result.success("Success")
         } catch (e: Exception) {
             Result.failure(Exception("fail to sign up by network problem"))
@@ -146,13 +154,34 @@ object UserRepository {
         }
     }
 
+    suspend fun loadMyFavoriteFriendList(): Result<String>{
+        val db = FirebaseFirestore.getInstance()
+
+        return try {
+            val documentSnapshot = db.collection("like list")
+                .document(currUser!!.id)
+                .get()
+                .await()
+
+            myFavoriteFriendList = documentSnapshot.get("like list") as MutableList<String>
+
+            Result.success("success")
+        } catch (e: Exception) {
+            Result.failure(Exception("fail to load favorite friend"))
+        }
+    }
+
     suspend fun tryAddFavoriteFriend(toAddId: String): Result<String> {
         val db = FirebaseFirestore.getInstance()
 
         return try {
+            myFavoriteFriendList.add(toAddId)
+
+            val favoriteMap = hashMapOf("like list" to myFavoriteFriendList)
+
             db.collection("like list")
                 .document(currUser!!.id)
-                .set(toAddId, SetOptions.merge())
+                .set(favoriteMap, SetOptions.merge())
                 .await()
 
             loadAllFriends()
@@ -165,16 +194,13 @@ object UserRepository {
         }
     }
 
-    private fun updateNumberOfLikesForFavoriteFriend(toAddUser: User) {
+    private suspend fun updateNumberOfLikesForFavoriteFriend(toAddUser: User) {
         val db = FirebaseFirestore.getInstance()
         val docRef = db.collection("user").document(toAddUser.id)
 
         db.runTransaction { transaction ->
-            val snapshot = transaction.get(docRef)
-
-            val newLike = snapshot.get("like") as Int + 1
-            transaction.update(docRef, "like", newLike)
-        }
+            transaction.update(docRef, "like", toAddUser.like)
+        }.await()
     }
 
     suspend fun tryDeleteFavoriteFriend(toDeleteId: String): Result<String>{

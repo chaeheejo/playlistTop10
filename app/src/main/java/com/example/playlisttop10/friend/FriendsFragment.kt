@@ -54,6 +54,7 @@ class FriendsFragment : Fragment() {
         btn_like = binding.friendsBtnFavorite
 
         friendsViewModel.loadFriends()
+        friendsViewModel.loadMyFavoriteFriendList()
 
         btn_friends.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
 

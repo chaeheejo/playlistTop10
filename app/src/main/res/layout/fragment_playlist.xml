@@ -21,9 +21,10 @@
         android:id="@+id/playlist_btn_register"
         android:layout_width="55dp"
         android:layout_height="55dp"
+        android:layout_marginTop="8dp"
         android:background="@color/white"
         android:scaleType="fitXY"
-        android:src="@android:drawable/ic_menu_add"
+        android:src="@drawable/ic_add_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,7 @@
         app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -48,7 +49,7 @@
         android:id="@+id/playlist_cv_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/guideline8"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
@@ -61,12 +62,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline8">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <ImageButton
-            android:id="@+id/playlist_btn_home"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/playlist_btn_playlist"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:adjustViewBounds="true"
@@ -75,22 +76,22 @@
 
         <ImageButton
             android:id="@+id/playlist_btn_friends"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_friends" />
+            android:src="@drawable/ic_groups" />
 
         <ImageButton
-            android:id="@+id/playlist_btn_like"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/playlist_btn_favorite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_like" />
+            android:src="@drawable/ic_favorite" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

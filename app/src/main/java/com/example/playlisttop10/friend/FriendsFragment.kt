@@ -13,13 +13,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,10 +28,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.playlisttop10.R
-import com.example.playlisttop10.Song
 import com.example.playlisttop10.UserRepository
 import com.example.playlisttop10.databinding.FragmentFriendsBinding
-import com.example.playlisttop10.playlist.PlaylistFragmentDirections
 
 class FriendsFragment : Fragment() {
     private var _binding: FragmentFriendsBinding? = null
@@ -59,7 +53,8 @@ class FriendsFragment : Fragment() {
         btn_friends = binding.friendsBtnFriends
         btn_like = binding.friendsBtnFavorite
 
-        friendsViewModel.loadUserList()
+        friendsViewModel.loadFriends()
+        friendsViewModel.loadMyFavoriteFriendList()
 
         btn_friends.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
 
@@ -85,7 +80,7 @@ class FriendsFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                UserRepository.currUser = null
+                UserRepository.clear()
                 findNavController().navigate(R.id.action_friendsFragment_to_loginFragment)
                 return true
             }
@@ -151,37 +146,6 @@ class FriendsFragment : Fragment() {
                     fontWeight = FontWeight.Medium
                 )
             }
-        }
-    }
-
-    //FavoriteButton(modifier = Modifier.padding(8.dp))
-    @Composable
-    fun FavoriteButton(
-        modifier: Modifier = Modifier,
-        color: Color = Color(0xffE91E63)
-    ) {
-
-        var isFavorite by remember { mutableStateOf(false) }
-
-        IconToggleButton(
-            checked = isFavorite,
-            onCheckedChange = {
-                isFavorite = !isFavorite
-            }
-        ) {
-            Icon(
-                tint = color,
-                modifier = modifier.graphicsLayer {
-                    scaleX = 1.3f
-                    scaleY = 1.3f
-                },
-                imageVector = if (isFavorite) {
-                    Icons.Filled.Favorite
-                } else {
-                    Icons.Default.FavoriteBorder
-                },
-                contentDescription = null
-            )
         }
     }
 

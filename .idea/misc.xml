@@ -7,10 +7,15 @@
         <entry key="../../../../layout/compose-model-1660273761969.xml" value="1.0" />
         <entry key="../../../../layout/compose-model-1660273785544.xml" value="0.55" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.338" />
+        <entry key="app/src/main/res/drawable/ic_add_box.xml" value="0.404" />
+        <entry key="app/src/main/res/drawable/ic_groups.xml" value="0.4535" />
+        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.4535" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.338" />
         <entry key="app/src/main/res/drawable/ic_like.xml" value="0.4535" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4552083333333333" />
+        <entry key="app/src/main/res/layout/fragment_favorite_friend.xml" value="0.40572916666666664" />
         <entry key="app/src/main/res/layout/fragment_friend_list.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_friends.xml" value="0.40572916666666664" />
         <entry key="app/src/main/res/layout/fragment_friends_list.xml" value="0.48854166666666665" />
         <entry key="app/src/main/res/layout/fragment_like_friend.xml" value="0.48854166666666665" />
         <entry key="app/src/main/res/layout/fragment_liked_friend.xml" value="0.335" />

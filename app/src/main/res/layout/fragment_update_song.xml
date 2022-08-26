@@ -1,113 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".modifySong.UpdateSongFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/update_tv_title"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="title"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/guideline1"
-        app:layout_constraintStart_toStartOf="@+id/update_tv_songTitle" />
+        tools:context=".modifySong.UpdateSongFragment">
 
-    <TextView
-        android:id="@+id/update_tv_singer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="singer"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/update_et_singer"
-        app:layout_constraintStart_toStartOf="@+id/update_et_singer" />
+        <TextView
+            android:id="@+id/update_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/update_tv_songTitle"
+            app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
-    <TextView
-        android:id="@+id/update_tv_album"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="album name"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/update_et_album"
-        app:layout_constraintStart_toStartOf="@+id/update_et_album" />
+        <TextView
+            android:id="@+id/update_tv_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="singer"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/update_et_singer"
+            app:layout_constraintStart_toStartOf="@+id/update_et_singer" />
 
-    <EditText
-        android:id="@+id/update_et_album"
-        android:layout_width="318dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="album name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_et_singer" />
+        <TextView
+            android:id="@+id/update_tv_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="album name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/update_et_album"
+            app:layout_constraintStart_toStartOf="@+id/update_et_album" />
 
-    <EditText
-        android:id="@+id/update_et_singer"
-        android:layout_width="318dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="singer"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_tv_songTitle" />
+        <EditText
+            android:id="@+id/update_et_album"
+            android:layout_width="318dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:hint="album name"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/update_et_singer" />
 
-    <TextView
-        android:id="@+id/update_tv_songTitle"
-        android:layout_width="311dp"
-        android:layout_height="37dp"
-        android:ems="10"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline1" />
+        <EditText
+            android:id="@+id/update_et_singer"
+            android:layout_width="318dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:hint="singer"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/update_tv_songTitle" />
 
-    <Button
-        android:id="@+id/update_btn_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="submit"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_et_album" />
+        <TextView
+            android:id="@+id/update_tv_songTitle"
+            android:layout_width="311dp"
+            android:layout_height="37dp"
+            android:ems="10"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/update_tv_title" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        <Button
+            android:id="@+id/update_btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="submit"
+            app:layout_constraintBottom_toTopOf="@+id/guideline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/update_et_album" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
 
-    <TextView
-        android:id="@+id/modify_tv_modify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Update Song"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.70" />
+
+        <TextView
+            android:id="@+id/modify_tv_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Update Song"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

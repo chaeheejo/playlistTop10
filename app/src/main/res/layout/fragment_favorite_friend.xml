@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".friend.UserListFragment">
+    tools:context=".friend.FavoriteFriendFragment">
 
     <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/user_cv_users"
+        android:id="@+id/favorite_cv_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/guideline"
@@ -33,9 +33,9 @@
         app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <ImageButton
-            android:id="@+id/user_btn_playlist"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/favorite_btn_playlist"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@color/white"
@@ -43,24 +43,24 @@
             android:src="@drawable/ic_home" />
 
         <ImageButton
-            android:id="@+id/user_btn_friends"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/favorite_btn_friends"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_users" />
+            android:src="@drawable/ic_groups" />
 
         <ImageButton
-            android:id="@+id/user_btn_like"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/favorite_btn_favorite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_liked" />
+            android:src="@drawable/ic_favorite" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

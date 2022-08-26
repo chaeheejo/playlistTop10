@@ -53,7 +53,7 @@ class PlaylistFragment : Fragment() {
         btn_register = binding.playlistBtnRegister
         btn_playlist = binding.playlistBtnPlaylist
         btn_friends = binding.playlistBtnFriends
-        btn_like = binding.playlistBtnLike
+        btn_like = binding.playlistBtnFavorite
 
         btn_playlist.setColorFilter(getColor(requireContext(), R.color.light_blue))
 
@@ -83,11 +83,11 @@ class PlaylistFragment : Fragment() {
         }
 
         btn_friends.setOnClickListener {
-            findNavController().navigate(R.id.action_playlistFragment_to_userListFragment)
+            findNavController().navigate(R.id.action_playlistFragment_to_friendsFragment)
         }
 
         btn_like.setOnClickListener {
-            findNavController().navigate(R.id.action_playlistFragment_to_likedFriendFragment)
+            findNavController().navigate(R.id.action_playlistFragment_to_favoriteFriendFragment)
         }
 
         val menuHost: MenuHost = requireActivity()
@@ -121,13 +121,13 @@ class PlaylistFragment : Fragment() {
     ) {
         LazyColumn(content = {
             items(count = elementList.size) {
-                Element(elementList[it])
+                Element(elementList[it], it + 1)
             }
         })
     }
 
     @Composable
-    fun Element(song: Song) {
+    fun Element(song: Song, index: Int) {
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -137,21 +137,29 @@ class PlaylistFragment : Fragment() {
             backgroundColor = Color.White,
             shape = RoundedCornerShape(corner = CornerSize(16.dp))
         ) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
+            Row(
+                Modifier.padding(start = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = song.title, fontSize = 33.sp,
-                    fontWeight = FontWeight.Medium
+                    text = index.toString(), fontSize = 20.sp
                 )
-                Text(
-                    text = song.album, fontSize = 20.sp
-                )
-                Text(
-                    text = song.singer, fontSize = 20.sp
-                )
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = song.title, fontSize = 25.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Text(
+                        text = song.album, fontSize = 20.sp
+                    )
+                    Text(
+                        text = song.singer, fontSize = 20.sp
+                    )
+                }
             }
         }
     }

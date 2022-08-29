@@ -10,6 +10,8 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.playlisttop10.R
 import com.example.playlisttop10.UserRepository
 import com.example.playlisttop10.databinding.FragmentFavoriteFriendBinding
@@ -22,6 +24,7 @@ class FavoriteFriendFragment : Fragment() {
     private lateinit var btn_playlist: ImageButton
     private lateinit var btn_friends: ImageButton
     private lateinit var btn_like: ImageButton
+    private lateinit var rv_friendsList: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +36,14 @@ class FavoriteFriendFragment : Fragment() {
         btn_playlist = binding.favoriteBtnPlaylist
         btn_friends = binding.favoriteBtnFriends
         btn_like = binding.favoriteBtnFavorite
+        rv_friendsList = binding.favoriteRvFriendsList
 
         btn_like.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
+
+        with(rv_friendsList){
+            layoutManager = LinearLayoutManager(context)
+            adapter = FavoriteFriendRecyclerViewAdapter(likedFriendViewModel.getFriendList())
+        }
 
         return binding.root
     }

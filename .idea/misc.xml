@@ -6,16 +6,21 @@
         <entry key="../../../../layout/compose-model-1660270062940.xml" value="0.55" />
         <entry key="../../../../layout/compose-model-1660273761969.xml" value="1.0" />
         <entry key="../../../../layout/compose-model-1660273785544.xml" value="0.55" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/activity_main.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_favorite_friend.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_friends.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_login.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_playlist.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_playlist_by_user.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_register_song.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_signup.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/fragment_update_song.xml" value="0.5505208333333333" />
+        <entry key="..\:/Users/Changmin/AndroidStudioProjects/playlistTop10/app/src/main/res/layout/object_favoritefriend.xml" value="0.5505208333333333" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.338" />
-        <entry key="app/src/main/res/drawable/ic_add_box.xml" value="0.404" />
-        <entry key="app/src/main/res/drawable/ic_groups.xml" value="0.4535" />
-        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.4535" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.338" />
         <entry key="app/src/main/res/drawable/ic_like.xml" value="0.4535" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4552083333333333" />
-        <entry key="app/src/main/res/layout/fragment_favorite_friend.xml" value="0.40572916666666664" />
         <entry key="app/src/main/res/layout/fragment_friend_list.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_friends.xml" value="0.40572916666666664" />
         <entry key="app/src/main/res/layout/fragment_friends_list.xml" value="0.48854166666666665" />
         <entry key="app/src/main/res/layout/fragment_like_friend.xml" value="0.48854166666666665" />
         <entry key="app/src/main/res/layout/fragment_liked_friend.xml" value="0.335" />
@@ -29,7 +34,6 @@
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_update_song.xml" value="0.48854166666666665" />
         <entry key="app/src/main/res/layout/fragment_user_list.xml" value="0.4197916666666667" />
-        <entry key="app/src/main/res/layout/object_favorite_friend.xml" value="0.4041666666666667" />
         <entry key="app/src/main/res/menu/btm_nav_menu.xml" value="0.4875" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.4119791666666667" />
       </map>

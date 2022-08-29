@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlisttop10.databinding.ObjectFavoritefriendBinding
 
 class FavoriteFriendRecyclerViewAdapter(
-    private val values: List<String>,
-    private val onClick: View.OnClickListener
+    private val values: List<String>
+//    private val onClick: View.OnClickListener
 ) : RecyclerView.Adapter<FavoriteFriendRecyclerViewAdapter.ViewHolder>() {
-
-    val TAG: String = "FavoriteFriendRecyclerViewAdapter DEBUG:"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -29,7 +27,7 @@ class FavoriteFriendRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.tv_friendName.text = item
-        holder.card_friendCard.setOnClickListener(onClick)
+//        holder.card_friendCard.setOnClickListener(onClick)
     }
 
     override fun getItemCount(): Int = values.size

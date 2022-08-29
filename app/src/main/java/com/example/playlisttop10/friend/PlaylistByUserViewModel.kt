@@ -10,22 +10,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PlaylistByUserViewModel : ViewModel() {
-    private var addedFavoriteFriend = MutableLiveData<Boolean>()
-    val isAddedFavoriteFriend: LiveData<Boolean> = addedFavoriteFriend
-
     private var _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
     fun tryAddFavoriteFriend(toAddId: String) {
+
+        if (toAddId in getMyFavoriteFriendList()){
+            return
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             val result = UserRepository.tryAddFavoriteFriend(toAddId)
 
             _errorMessage.postValue(
                 if (result.isSuccess) {
-                    addedFavoriteFriend.postValue(true)
                     ""
                 } else {
-                    addedFavoriteFriend.postValue(false)
                     result.exceptionOrNull()?.message
                 }
             )
@@ -33,15 +33,18 @@ class PlaylistByUserViewModel : ViewModel() {
     }
 
     fun tryDeleteFavoriteFriend(toDeleteId: String) {
+
+        if (toDeleteId !in getMyFavoriteFriendList()){
+            return
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             val result = UserRepository.tryDeleteFavoriteFriend(toDeleteId)
 
             _errorMessage.postValue(
                 if (result.isSuccess) {
-                    addedFavoriteFriend.postValue(true)
                     ""
                 } else {
-                    addedFavoriteFriend.postValue(false)
                     result.exceptionOrNull()?.message
                 }
             )
@@ -50,5 +53,9 @@ class PlaylistByUserViewModel : ViewModel() {
 
     fun getPlaylistById(id: String): List<Song>? {
         return UserRepository.getPlaylistById(id)
+    }
+
+    fun getMyFavoriteFriendList(): List<String>{
+        return UserRepository.getMyFavoriteFriendList()
     }
 }

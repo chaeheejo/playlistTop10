@@ -52,7 +52,7 @@ class PlaylistByUserFragment : Fragment() {
     private lateinit var btn_friends: ImageButton
     private lateinit var btn_favorite: ImageButton
 
-//    private lateinit var isFavorite: Boolean
+    private var _isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,6 +108,8 @@ class PlaylistByUserFragment : Fragment() {
         })
 
         val playlist = playlistByUserViewModel.getPlaylistById(args.id)
+        val favoriteFriendList = playlistByUserViewModel.getMyFavoriteFriendList()
+        _isFavorite = args.id in favoriteFriendList
 
         if (playlist != null) {
             cv_list.setContent {
@@ -125,8 +127,7 @@ class PlaylistByUserFragment : Fragment() {
                     FavoriteButton(
                         modifier = Modifier
                             .align(Alignment.End)
-                            .padding(end = 5.dp),
-                        isFavorite = false
+                            .padding(end = 5.dp)
                     )
                     ElementList(playlist)
                 }
@@ -206,14 +207,16 @@ class PlaylistByUserFragment : Fragment() {
     @Composable
     fun FavoriteButton(
         modifier: Modifier,
-        color: Color = Color(0xffE91E63),
-        isFavorite: Boolean
+        color: Color = Color(0xffE91E63)
     ) {
+
+        var isFavorite by remember { mutableStateOf(_isFavorite) }
 
         IconToggleButton(
             modifier = modifier,
             checked = isFavorite,
             onCheckedChange = {
+                isFavorite = !isFavorite
                 onClick(isFavorite)
             }
         ) {

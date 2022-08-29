@@ -199,7 +199,11 @@ object UserRepository {
         val docRef = db.collection("user").document(toAddUser.id)
 
         db.runTransaction { transaction ->
-            transaction.update(docRef, "like", toAddUser.like)
+            val snapshot = transaction.get(docRef)
+
+            var newLike = snapshot.get("like") as Long
+            newLike +=1
+            transaction.update(docRef, "like", newLike)
         }.await()
     }
 
@@ -207,13 +211,14 @@ object UserRepository {
         val db = FirebaseFirestore.getInstance()
 
         return try {
-            val documentSnapshot = db.collection("like list")
+            myFavoriteFriendList.remove(toDeleteId)
+
+            val favoriteMap = hashMapOf("like list" to myFavoriteFriendList)
+
+            db.collection("like list")
                 .document(currUser!!.id)
-                .get()
+                .set(favoriteMap, SetOptions.merge())
                 .await()
-
-            val likeList = documentSnapshot.get("like")
-
 
             loadAllFriends()
             allFriendsMap[toDeleteId]!!.like--
@@ -232,7 +237,8 @@ object UserRepository {
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
 
-            val newLike = snapshot.get("like") as Int - 1
+            var newLike = snapshot.get("like") as Long
+            newLike -=1
             transaction.update(docRef, "like", newLike)
         }
     }
@@ -242,6 +248,10 @@ object UserRepository {
             return null
         }
         return allFriendsMap[id]!!.playlist
+    }
+
+    fun getMyFavoriteFriendList(): List<String>{
+        return myFavoriteFriendList
     }
 
     fun getNumberOfLikesById(id: String): Int {

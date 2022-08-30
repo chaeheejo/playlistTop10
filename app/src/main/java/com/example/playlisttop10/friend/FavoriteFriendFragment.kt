@@ -23,7 +23,7 @@ class FavoriteFriendFragment : Fragment() {
     private lateinit var favoriteFriendViewModel: FavoriteFriendViewModel
 
     private lateinit var btn_playlist: ImageButton
-    private lateinit var btn_friends: ImageButton
+    private lateinit var btn_users: ImageButton
     private lateinit var btn_like: ImageButton
     private lateinit var rv_friendsList: RecyclerView
 
@@ -36,7 +36,7 @@ class FavoriteFriendFragment : Fragment() {
         _binding = FragmentFavoriteFriendBinding.inflate(inflater, container, false)
 
         btn_playlist = binding.favoriteBtnPlaylist
-        btn_friends = binding.favoriteBtnFriends
+        btn_users = binding.favoriteBtnUsers
         btn_like = binding.favoriteBtnFavorite
         rv_friendsList = binding.favoriteRvFriendsList
 
@@ -54,8 +54,8 @@ class FavoriteFriendFragment : Fragment() {
             findNavController().navigate(R.id.action_favoriteFriendFragment_to_playlistFragment)
         }
 
-        btn_friends.setOnClickListener {
-            findNavController().navigate(R.id.action_favoriteFriendFragment_to_friendsFragment)
+        btn_users.setOnClickListener {
+            findNavController().navigate(R.id.action_favoriteFriendFragment_to_allUsersFragment)
         }
 
         favoriteFriendViewModel.isMyFavoriteFriendListLoaded.observe(viewLifecycleOwner, Observer {

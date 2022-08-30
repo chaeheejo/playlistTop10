@@ -41,8 +41,8 @@
             android:id="@+id/action_playlistFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_playlistFragment_to_friendsFragment"
-            app:destination="@id/friendsFragment" />
+            android:id="@+id/action_playlistFragment_to_allUsersFragment"
+            app:destination="@id/allUsersFragment" />
         <action
             android:id="@+id/action_playlistFragment_to_favoriteFriendFragment"
             app:destination="@id/favoriteFriendFragment" />
@@ -78,21 +78,21 @@
             android:defaultValue="album" />
     </fragment>
     <fragment
-        android:id="@+id/friendsFragment"
-        android:name="com.example.playlisttop10.friend.FriendsFragment"
-        android:label="fragment_friends"
-        tools:layout="@layout/fragment_friends">
+        android:id="@+id/allUsersFragment"
+        android:name="com.example.playlisttop10.friend.AllUsersFragment"
+        android:label="fragment_all_users"
+        tools:layout="@layout/fragment_all_users">
         <action
-            android:id="@+id/action_friendsFragment_to_playlistFragment"
+            android:id="@+id/action_allUsersFragment_to_playlistFragment"
             app:destination="@id/playlistFragment" />
         <action
-            android:id="@+id/action_friendsFragment_to_loginFragment"
+            android:id="@+id/action_allUsersFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_friendsFragment_to_favoriteFriendFragment"
+            android:id="@+id/action_allUsersFragment_to_favoriteFriendFragment"
             app:destination="@id/favoriteFriendFragment" />
         <action
-            android:id="@+id/action_friendsFragment_to_playlistByUserFragment"
+            android:id="@+id/action_allUsersFragment_to_playlistByUserFragment"
             app:destination="@id/playlistByUserFragment" />
     </fragment>
     <fragment
@@ -104,8 +104,8 @@
             android:id="@+id/action_favoriteFriendFragment_to_playlistFragment"
             app:destination="@id/playlistFragment" />
         <action
-            android:id="@+id/action_favoriteFriendFragment_to_friendsFragment"
-            app:destination="@id/friendsFragment" />
+            android:id="@+id/action_favoriteFriendFragment_to_allUsersFragment"
+            app:destination="@id/allUsersFragment" />
         <action
             android:id="@+id/action_favoriteFriendFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -129,8 +129,8 @@
             app:argType="string"
             android:defaultValue="id" />
         <action
-            android:id="@+id/action_playlistByUserFragment_to_friendsFragment"
-            app:destination="@id/friendsFragment" />
+            android:id="@+id/action_playlistByUserFragment_to_allUsersFragment"
+            app:destination="@id/allUsersFragment" />
     </fragment>
 
 

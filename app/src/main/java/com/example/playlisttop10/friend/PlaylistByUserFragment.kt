@@ -49,7 +49,7 @@ class PlaylistByUserFragment : Fragment() {
 
     private lateinit var cv_list: ComposeView
     private lateinit var btn_playlist: ImageButton
-    private lateinit var btn_friends: ImageButton
+    private lateinit var btn_users: ImageButton
     private lateinit var btn_favorite: ImageButton
 
     private var _isFavorite: Boolean = false
@@ -64,10 +64,10 @@ class PlaylistByUserFragment : Fragment() {
 
         cv_list = binding.byUserCvList
         btn_playlist = binding.byUserBtnPlaylist
-        btn_friends = binding.byUserBtnFriends
+        btn_users = binding.byUserBtnUsers
         btn_favorite = binding.byUserBtnFavorite
 
-        btn_friends.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
+        btn_users.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
 
         return binding.root
     }
@@ -79,8 +79,8 @@ class PlaylistByUserFragment : Fragment() {
             findNavController().navigate(R.id.action_playlistByUserFragment_to_playlistFragment)
         }
 
-        btn_friends.setOnClickListener {
-            findNavController().navigate(R.id.action_playlistByUserFragment_to_friendsFragment)
+        btn_users.setOnClickListener {
+            findNavController().navigate(R.id.action_playlistByUserFragment_to_allUsersFragment)
         }
 
         btn_favorite.setOnClickListener {
@@ -148,9 +148,9 @@ class PlaylistByUserFragment : Fragment() {
     }
 
     private fun onClick(isFavorite: Boolean) {
-        if (isFavorite){
+        if (isFavorite) {
             playlistByUserViewModel.tryAddFavoriteFriend(args.id)
-        }else {
+        } else {
             playlistByUserViewModel.tryDeleteFavoriteFriend(args.id)
         }
     }

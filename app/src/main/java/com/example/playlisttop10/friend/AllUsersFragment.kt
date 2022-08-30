@@ -14,10 +14,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -30,33 +32,33 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.playlisttop10.R
 import com.example.playlisttop10.UserRepository
-import com.example.playlisttop10.databinding.FragmentFriendsBinding
+import com.example.playlisttop10.databinding.FragmentAllUsersBinding
 
-class FriendsFragment : Fragment() {
-    private var _binding: FragmentFriendsBinding? = null
+class AllUsersFragment : Fragment() {
+    private var _binding: FragmentAllUsersBinding? = null
     private val binding get() = _binding!!
-    private lateinit var friendsViewModel: FriendsViewModel
+    private lateinit var allUsersViewModel: AllUsersViewModel
 
     private lateinit var cv_friends: ComposeView
     private lateinit var btn_playlist: ImageButton
-    private lateinit var btn_friends: ImageButton
+    private lateinit var btn_users: ImageButton
     private lateinit var btn_like: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        friendsViewModel = ViewModelProvider(requireActivity())[FriendsViewModel::class.java]
-        _binding = FragmentFriendsBinding.inflate(inflater, container, false)
+        allUsersViewModel = ViewModelProvider(requireActivity())[AllUsersViewModel::class.java]
+        allUsersViewModel.loadFriends()
 
-        cv_friends = binding.friendsCvList
-        btn_playlist = binding.friendsBtnPlaylist
-        btn_friends = binding.friendsBtnFriends
-        btn_like = binding.friendsBtnFavorite
+        _binding = FragmentAllUsersBinding.inflate(inflater, container, false)
 
-        friendsViewModel.loadFriends()
+        cv_friends = binding.allCvList
+        btn_playlist = binding.allBtnPlaylist
+        btn_users = binding.allBtnUsers
+        btn_like = binding.allBtnFavorite
 
-        btn_friends.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
+        btn_users.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
 
         return binding.root
     }
@@ -65,11 +67,11 @@ class FriendsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btn_playlist.setOnClickListener {
-            findNavController().navigate(R.id.action_friendsFragment_to_playlistFragment)
+            findNavController().navigate(R.id.action_allUsersFragment_to_playlistFragment)
         }
 
         btn_like.setOnClickListener {
-            findNavController().navigate(R.id.action_friendsFragment_to_favoriteFriendFragment)
+            findNavController().navigate(R.id.action_allUsersFragment_to_favoriteFriendFragment)
         }
 
         val menuHost: MenuHost = requireActivity()
@@ -81,21 +83,21 @@ class FriendsFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 UserRepository.clear()
-                findNavController().navigate(R.id.action_friendsFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_allUsersFragment_to_loginFragment)
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        friendsViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+        allUsersViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
             if (it != null && it != "") {
                 Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
             }
         })
 
-        friendsViewModel.isFriendListLoaded.observe(viewLifecycleOwner, Observer {
+        allUsersViewModel.isUserListLoaded.observe(viewLifecycleOwner, Observer {
             if (it) {
                 cv_friends.setContent {
-                    val friendIdList = friendsViewModel.friendIdList
+                    val friendIdList = allUsersViewModel.friendIdList
                     friendIdList.remove(UserRepository.currUser!!.id)
 
                     Column(
@@ -110,7 +112,7 @@ class FriendsFragment : Fragment() {
     }
 
     private fun onClick(id: String) {
-        val action = FriendsFragmentDirections.actionFriendsFragmentToPlaylistByUserFragment(id)
+        val action = AllUsersFragmentDirections.actionAllUsersFragmentToPlaylistByUserFragment(id)
         findNavController().navigate(action)
     }
 
@@ -139,11 +141,19 @@ class FriendsFragment : Fragment() {
             Column(
                 Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = id, fontSize = 25.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Left
+                )
+                Text(
+                    text = "${allUsersViewModel.getNumberOfLikesById(id)} likes", fontSize = 20.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End
                 )
             }
         }

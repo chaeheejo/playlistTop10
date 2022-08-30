@@ -2,9 +2,7 @@ package com.example.playlisttop10.friend
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.playlisttop10.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

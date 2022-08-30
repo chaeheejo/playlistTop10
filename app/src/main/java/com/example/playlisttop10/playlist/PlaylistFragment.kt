@@ -83,7 +83,7 @@ class PlaylistFragment : Fragment() {
         }
 
         btn_friends.setOnClickListener {
-            findNavController().navigate(R.id.action_playlistFragment_to_friendsFragment)
+            findNavController().navigate(R.id.action_playlistFragment_to_allUsersFragment)
         }
 
         btn_like.setOnClickListener {

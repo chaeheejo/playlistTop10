@@ -255,6 +255,10 @@ object UserRepository {
     }
 
     fun getNumberOfLikesById(id: String): Int {
-        return allFriendsMap[id]!!.like
+        return if (id in allFriendsMap){
+            allFriendsMap[id]!!.like
+        }else{
+            0
+        }
     }
 }

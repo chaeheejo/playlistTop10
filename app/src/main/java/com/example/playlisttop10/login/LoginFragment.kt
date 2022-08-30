@@ -10,10 +10,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlisttop10.R
-import com.example.playlisttop10.User
 import com.example.playlisttop10.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {

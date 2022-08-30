@@ -43,7 +43,7 @@
             android:src="@drawable/ic_home" />
 
         <ImageButton
-            android:id="@+id/byUser_btn_friends"
+            android:id="@+id/byUser_btn_users"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"

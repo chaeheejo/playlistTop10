@@ -9,11 +9,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FriendsViewModel : ViewModel() {
+class AllUsersViewModel : ViewModel() {
     var friendIdList: MutableList<String> = mutableStateListOf()
 
-    private var friendListLoaded = MutableLiveData<Boolean>()
-    val isFriendListLoaded: LiveData<Boolean> = friendListLoaded
+    private var userListLoaded = MutableLiveData<Boolean>()
+    val isUserListLoaded: LiveData<Boolean> = userListLoaded
 
     private var _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
@@ -27,27 +27,17 @@ class FriendsViewModel : ViewModel() {
                     val _userList = result.getOrDefault(listOf())
                     friendIdList = _userList.toMutableList()
 
-                    friendListLoaded.postValue(true)
+                    userListLoaded.postValue(true)
                     ""
                 } else {
-                    friendListLoaded.postValue(false)
+                    userListLoaded.postValue(false)
                     result.exceptionOrNull()?.message
                 }
             )
         }
     }
 
-    fun loadMyFavoriteFriendList(){
-        CoroutineScope(Dispatchers.IO).launch {
-            val result = UserRepository.loadMyFavoriteFriendList()
-
-            _errorMessage.postValue(
-                if (result.isSuccess) {
-                    ""
-                } else {
-                    result.exceptionOrNull()?.message
-                }
-            )
-        }
+    fun getNumberOfLikesById(id: String): Int{
+        return UserRepository.getNumberOfLikesById(id)
     }
 }

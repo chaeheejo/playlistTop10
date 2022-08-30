@@ -9,7 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.playlisttop10.R
 import com.example.playlisttop10.UserRepository
 import com.example.playlisttop10.databinding.FragmentFavoriteFriendBinding
@@ -17,22 +20,27 @@ import com.example.playlisttop10.databinding.FragmentFavoriteFriendBinding
 class FavoriteFriendFragment : Fragment() {
     private var _binding: FragmentFavoriteFriendBinding? = null
     private val binding get() = _binding!!
-    private lateinit var likedFriendViewModel: FavoriteFriendViewModel
+    private lateinit var favoriteFriendViewModel: FavoriteFriendViewModel
 
     private lateinit var btn_playlist: ImageButton
-    private lateinit var btn_friends: ImageButton
+    private lateinit var btn_users: ImageButton
     private lateinit var btn_like: ImageButton
+    private lateinit var rv_friendsList: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        likedFriendViewModel = ViewModelProvider(requireActivity())[FavoriteFriendViewModel::class.java]
+        favoriteFriendViewModel =
+            ViewModelProvider(requireActivity())[FavoriteFriendViewModel::class.java]
         _binding = FragmentFavoriteFriendBinding.inflate(inflater, container, false)
 
         btn_playlist = binding.favoriteBtnPlaylist
-        btn_friends = binding.favoriteBtnFriends
+        btn_users = binding.favoriteBtnUsers
         btn_like = binding.favoriteBtnFavorite
+        rv_friendsList = binding.favoriteRvFriendsList
+
+        favoriteFriendViewModel.loadMyFavoriteFriendList()
 
         btn_like.setColorFilter(ContextCompat.getColor(requireContext(), R.color.light_blue))
 
@@ -46,9 +54,16 @@ class FavoriteFriendFragment : Fragment() {
             findNavController().navigate(R.id.action_favoriteFriendFragment_to_playlistFragment)
         }
 
-        btn_friends.setOnClickListener {
-            findNavController().navigate(R.id.action_favoriteFriendFragment_to_friendsFragment)
+        btn_users.setOnClickListener {
+            findNavController().navigate(R.id.action_favoriteFriendFragment_to_allUsersFragment)
         }
+
+        favoriteFriendViewModel.isMyFavoriteFriendListLoaded.observe(viewLifecycleOwner, Observer {
+            with(rv_friendsList) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = FavoriteFriendRecyclerViewAdapter(favoriteFriendViewModel.getFriendList())
+            }
+        })
 
         val menuHost: MenuHost = requireActivity()
 

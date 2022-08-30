@@ -6,11 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".friend.FavoriteFriendFragment">
 
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/favorite_cv_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/guideline"
+    <TextView
+        android:id="@+id/favorite_tv_myFavoriteList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="My favorite Friends"
+        android:textColor="#000000"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,6 +25,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.92" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favorite_rv_friendsList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorite_tv_myFavoriteList" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +57,7 @@
             android:src="@drawable/ic_home" />
 
         <ImageButton
-            android:id="@+id/favorite_btn_friends"
+            android:id="@+id/favorite_btn_users"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"

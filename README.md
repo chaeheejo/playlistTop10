@@ -14,7 +14,7 @@
 
 <br>
 
-### development logic
+### development 
 + MVVM 모델을 사용해 View - ViewModel - UserRepository 순으로 계층이 구성되어 있다.
 + compose를 사용해 리스트를 화면에 보여주었다.
 + RecyclerView를 사용해 리스트를 띄워주는 본래의 방식 또한 사용히였다.

@@ -1,4 +1,4 @@
-# playlistTop10
+# playlist_top10
 
 ### Description
 > 사용자들의 플레이리스트 공유 앱   
@@ -15,7 +15,7 @@
 <br>
 
 ### development 
-+ MVVM 모델을 사용해 View - ViewModel - UserRepository 순으로 계층이 구성되어 있다.
++ MVVM 패턴을 사용해 View - ViewModel - UserRepository 순으로 계층이 구성되어 있다.
 + compose를 사용해 리스트를 화면에 보여주었다.
 + RecyclerView를 사용해 리스트를 띄워주는 본래의 방식 또한 사용히였다.
-+ DB는 firebase cloud를 사용하였다.
++ NoSQL DB로 firebase를 사용하였다.

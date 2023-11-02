@@ -19,3 +19,16 @@
 + compose를 사용해 리스트를 화면에 보여주었다.
 + RecyclerView를 사용해 리스트를 띄워주는 본래의 방식 또한 사용히였다.
 + NoSQL DB로 firebase를 사용하였다.
+
+<br>
+
+### 실행화면
+![image](https://github.com/chaeheejo/playlist_top10/assets/65950056/361f2225-18e2-485a-a7c4-e69550ff292a)
+![image](https://github.com/chaeheejo/playlist_top10/assets/65950056/0cbb3458-abbf-4df8-9e81-f8d3db7e8d67)
+![image](https://github.com/chaeheejo/playlist_top10/assets/65950056/e68d91de-129c-4997-b1bd-b6bdbc356f13)
+![image](https://github.com/chaeheejo/playlist_top10/assets/65950056/47db4244-afb7-4a0a-a033-aeaddc30c4ce)
+
+
+
+
+
